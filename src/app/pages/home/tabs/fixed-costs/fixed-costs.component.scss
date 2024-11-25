@@ -1,0 +1,9 @@
+.mew-btn {
+    margin-bottom: 12px;
+}
+.delete-btn {
+    background-color: red;
+    &:hover:not(:disabled) {
+        background-color: rgb(107, 0, 0);
+    }
+}

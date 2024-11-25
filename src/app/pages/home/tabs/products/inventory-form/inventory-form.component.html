@@ -1,0 +1,44 @@
+<form [formGroup]="form()">
+    <ng-container formArrayName="inventory">
+        <ul>
+            @for (
+                inventory of form().controls.inventory.controls;
+                track inventory.value.inventoryId
+            ) {
+                <li [formGroupName]="$index">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <select formControlName="inventoryId">
+                            @for (
+                                materialOption of availableMaterials();
+                                track materialOption._id
+                            ) {
+                                <option [value]="materialOption._id">
+                                    {{ materialOption.name }}
+                                </option>
+                            }
+                        </select>
+                        @let inventoryControl = inventory.controls.inventoryId;
+                        @if (inventoryControl.invalid && inventoryControl.touched) {
+                            <div class="error">Inventory is required</div>
+                        }
+                    </div>
+                    <app-text-control
+                        label="Quantity in use"
+                        controlName="quantityInUse"
+                        type="number" />
+                    <app-text-control
+                        label="Quantity in cost"
+                        controlName="quantityInCost"
+                        type="number" />
+                    <app-text-control
+                        label="During Manufacture"
+                        controlName="duringManufacture"
+                        type="checkbox" />
+                    <button (click)="removeInventory($index)">Remove</button>
+                </li>
+            }
+        </ul>
+        <button (click)="addInventory()">Add</button>
+    </ng-container>
+</form>

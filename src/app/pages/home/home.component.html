@@ -1,0 +1,32 @@
+<div class="tabs-container">
+    <ul class="tabs">
+        @for (tab of tabs; track tab) {
+            <li [class.active]="activeTab === tab" (click)="setActiveTab(tab)">
+                {{ tab }}
+            </li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        @switch (activeTab) {
+            @case (productsTabName) {
+                <app-products />
+            }
+            @case (clientsTabName) {
+                <app-clients />
+            }
+            @case (fixedCostsTabName) {
+                <app-fixed-costs />
+            }
+            @case (otherCostsTabName) {
+                <app-other-costs />
+            }
+            @case (inventoryTabName) {
+                <app-inventory />
+            }
+            @case (ordersTabName) {
+                <app-orders />
+            }
+        }
+    </div>
+</div>

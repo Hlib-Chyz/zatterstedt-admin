@@ -1,0 +1,63 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist/out-tsc",
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "module": "es2020",
+        "lib": ["es2020", "dom"],
+        "paths": {
+            "@shared/*": ["src/app/shared/*"],
+            "@store/*": ["src/app/store/*"],
+            "@utils/*": ["src/app/utils/*"],
+            "@screens/*": ["src/app/screens/home/screens/*"],
+            "@home/*": ["src/app/screens/home/*"],
+            "@app/*": ["src/app/*"]
+        },
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "ES2022",
+        "jsx": "react",
+        "useDefineForClassFields": false,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "incremental": true,
+        "skipLibCheck": true,
+        "noImplicitAny": true,
+        "strictBindCallApply": false,
+        "forceConsistentCasingInFileNames": false,
+        "resolveJsonModule": true,
+        "strict": true,
+        "strictPropertyInitialization": false,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noUncheckedIndexedAccess": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "useUnknownInCatchVariables": true,
+        "exactOptionalPropertyTypes": true
+    },
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
+        "strictInjectionParameters": true,
+        "preserveWhitespaces": true,
+        "fullTemplateTypeCheck": true,
+        "strictInputAccessModifiers": true,
+        "strictTemplates": true,
+        "extendedDiagnostics": {
+            "checks": {
+                "invalidBananaInBox": "error",
+                "nullishCoalescingNotNullable": "warning",
+                "unusedStandaloneImports": "warning"
+            },
+            "defaultCategory": "suppress"
+        }
+    },
+    "include": ["src", "node_modules/cypress"],
+    "exclude": ["node_modules/cypress"]
+}

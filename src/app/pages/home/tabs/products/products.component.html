@@ -1,0 +1,80 @@
+<div class="buttons">
+    <button type="button" (click)="openProductPopup()" class="btn mew-btn">New</button>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Cost Price</th>
+            <th>Variants</th>
+            <th>Inventory and job</th>
+            <th>Stock</th>
+            <th>Total</th>
+            <th>Development Costs</th>
+            <th>Additional Costs</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of products">
+            <td>{{ product.name }}</td>
+            <td>
+                <button (click)="openPricePopup(product._id, product.price)">
+                    {{ product.price | currency }}
+                </button>
+            </td>
+            <td>{{ getCostPrice(product) | currency }}</td>
+            <td>
+                <ul>
+                    <li *ngFor="let variant of product.variants">
+                        {{ variant.size }} / {{ variant.color }} - In stock:
+                        {{ variant.stock.total - variant.stock.sold }}
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <button (click)="openInventoryPopup(product.manufacturingCost)">Inventory</button>
+                <button (click)="openJobPopup(product.manufacturingCost)">Job</button>
+            </td>
+            <td>{{ getStock(product) }}</td>
+            <td>{{ getTotal(product) }}</td>
+            <td>
+                <ul class="development-cost-list">
+                    <li *ngFor="let cost of product.developmentCosts">
+                        {{ cost.date | date }} - {{ cost.description }}: {{ cost.cost | currency }}
+                    </li>
+                </ul>
+                <button (click)="openDevelopmentCostPopup(product._id)">Add</button>
+            </td>
+            <td>
+                <button (click)="openAdditionalCostPopup(product.additionalCost)">
+                    {{ product.additionalCost.cost | currency }}
+                </button>
+            </td>
+            <td>
+                <button type="button" (click)="openProductPopup(product)" class="btn mew-btn">
+                    Update
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<app-popup (save)="setAdditionalCost()" #additionalCostPopup>
+    <app-additional-cost-form [form]="additionalCostForm" />
+</app-popup>
+<app-popup (save)="addDevelopmentCost()" #developmentCostPopup>
+    <app-development-cost-form [form]="developmentCostForm" />
+</app-popup>
+<app-popup (save)="setInventory()" #inventoryPopup>
+    <app-inventory-form [form]="inventoryForm" />
+</app-popup>
+<app-popup (save)="setPrice()" #pricePopup>
+    <app-price-form [form]="priceForm" />
+</app-popup>
+<app-popup (save)="addProduct()" #productPopup>
+    <app-product-form [form]="productForm" />
+</app-popup>
+<app-popup (save)="changeJob()" #jobPopup>
+    <app-job-cost-form [form]="jobsForm" />
+</app-popup>

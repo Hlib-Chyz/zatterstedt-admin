@@ -1,0 +1,4 @@
+<app-popup (save)="onSubmit()" #popup>
+    <app-client-form [form]="form" />
+</app-popup>
+<app-table [columns]="columns" [data]="data()" (update)="setContactsInfo($event)" />

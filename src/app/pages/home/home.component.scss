@@ -1,0 +1,33 @@
+.tabs-container {
+    padding: 1rem;
+    .tabs {
+        list-style-type: none;
+        display: flex;
+        gap: 1rem;
+        padding: 0;
+        margin-bottom: 1rem;
+        li {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            &.active {
+                background-color: #007bff;
+                color: white;
+                &:hover {
+                    background-color: #007bff;
+                }
+            }
+            &:hover {
+                background-color: #e0e0e0;
+            }
+        }
+    }
+    .tab-content {
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fafafa;
+    }
+}

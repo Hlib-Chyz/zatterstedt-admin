@@ -1,0 +1,4 @@
+<app-popup (save)="onSubmit()" #popup>
+    <app-order-form [form]="form" />
+</app-popup>
+<app-table [columns]="columns" [data]="data()" (add)="add()" />

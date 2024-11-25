@@ -1,0 +1,176 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "cli": {
+        "analytics": false,
+        "schematicCollections": [
+            "@cypress/schematic",
+            "@angular-eslint/schematics",
+            "@schematics/angular"
+        ]
+    },
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "zatterstedt-admin": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss",
+                    "changeDetection": "OnPush",
+                    "standalone": true,
+                    "prefix": "zatterstedt"
+                },
+                "@schematics/angular:directive": {
+                    "standalone": true,
+                    "prefix": "zatterstedt"
+                },
+                "@schematics/angular:guard": {
+                    "functional": true
+                },
+                "@schematics/angular:interceptor": {
+                    "functional": true
+                },
+                "@schematics/angular:interface": {
+                    "prefix": "I"
+                },
+                "@schematics/angular:pipe": {
+                    "standalone": true
+                },
+                "@schematics/angular:resolver": {
+                    "functional": true
+                },
+                "@schematics/angular:application": {
+                    "strict": true
+                }
+            },
+            "root": "",
+            "sourceRoot": "src",
+            "prefix": "app",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:application",
+                    "options": {
+                        "outputPath": {
+                          "base": "dist/zatterstedt-admin"
+                        },
+                        "index": "src/index.html",
+                        "polyfills": ["zone.js", "@angular/localize/init"],
+                        "tsConfig": "tsconfig.app.json",
+                        "inlineStyleLanguage": "sass",
+                        "assets": ["src/favicon.ico", "src/assets"],
+                        "styles": ["src/styles.scss"],
+                        "scripts": [],
+                        "browser": "src/main.ts"
+                    },
+                    "configurations": {
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "501kb",
+                                    "maximumError": "8mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "4kb",
+                                    "maximumError": "6kb"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
+                        "development": {
+                          "optimization": false,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "configurations": {
+                        "production": {
+                            "buildTarget": "zatterstedt-admin:build:production"
+                        },
+                        "development": {
+                            "buildTarget": "zatterstedt-admin:build:development"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "buildTarget": "zatterstedt-admin:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "polyfills": ["zone.js", "zone.js/testing", "@angular/localize/init"],
+                        "main": "src/test.ts",
+                        "tsConfig": "tsconfig.spec.json",
+                        "karmaConfig": "karma.conf.cjs",
+                        "inlineStyleLanguage": "sass",
+                        "assets": ["src/favicon.ico", "src/assets"],
+                        "styles": ["src/styles.scss"],
+                        "scripts": [],
+                        "codeCoverage": true
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+                    }
+                },
+                "cypress-run": {
+                    "builder": "@cypress/schematic:cypress",
+                    "options": {
+                        "devServerTarget": "zatterstedt-admin:serve"
+                    },
+                    "configurations": {
+                        "production": {
+                            "devServerTarget": "zatterstedt-admin:serve:production"
+                        }
+                    }
+                },
+                "cypress-open": {
+                    "builder": "@cypress/schematic:cypress",
+                    "options": {
+                        "watch": true,
+                        "headless": false
+                    }
+                },
+                "ct": {
+                    "builder": "@cypress/schematic:cypress",
+                    "options": {
+                        "devServerTarget": "zatterstedt-admin:serve",
+                        "watch": true,
+                        "headless": false,
+                        "testingType": "component"
+                    },
+                    "configurations": {
+                        "development": {
+                            "devServerTarget": "zatterstedt-admin:serve:development"
+                        }
+                    }
+                },
+                "e2e": {
+                    "builder": "@cypress/schematic:cypress",
+                    "options": {
+                        "devServerTarget": "zatterstedt-admin:serve",
+                        "watch": true,
+                        "headless": false
+                    },
+                    "configurations": {
+                        "production": {
+                            "devServerTarget": "zatterstedt-admin:serve:production"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+@if (touched()) {
+    @for (error of errors() | keyvalue; track error.key) {
+        <div class="error">
+            {{ errorMessages[error.key]?.() }}
+        </div>
+    }
+}

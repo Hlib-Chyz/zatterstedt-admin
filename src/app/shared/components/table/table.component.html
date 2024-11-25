@@ -1,0 +1,46 @@
+@if (add.observed) {
+    <div>
+        <button type="button" (click)="add.emit()" class="btn mew-btn">New</button>
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            @for (column of columns(); track column) {
+                <th>{{ column.name }}</th>
+            }
+            @if (update.observed) {
+                <th>Edit</th>
+            }
+            @if (remove.observed) {
+                <th>Delete</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (item of data(); track item._id) {
+            <tr>
+                @for (column of columns(); track column) {
+                    <td>{{ item[column.field] }}</td>
+                }
+                @if (update.observed) {
+                    <td>
+                        <button type="button" (click)="update.emit(item)" class="btn">
+                            Update
+                        </button>
+                    </td>
+                }
+                @if (remove.observed) {
+                    <td>
+                        <button
+                            type="button"
+                            (click)="remove.emit(item._id)"
+                            class="btn delete-btn">
+                            Delete
+                        </button>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

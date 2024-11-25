@@ -1,0 +1,48 @@
+.table {
+    border-collapse: collapse;
+    text-align: left;
+    border: 1px solid #ddd;
+    thead {
+        background-color: #f1f1f1;
+        th {
+            padding: 10px;
+            font-weight: normal;
+            font-size: 14px;
+            border-bottom: 2px solid #ddd;
+            border-right: 1px solid #ddd;
+            text-transform: uppercase;
+            &:last-child {
+                border-right: none;
+            }
+            &:first-child {
+                text-align: center;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding: 8px;
+                border-bottom: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+                &:last-child {
+                    border-right: none;
+                    color: #333;
+                    font-weight: bold;
+                }
+            }
+            &:hover {
+                background-color: #f9f9f9;
+            }
+        }
+    }
+}
+.mew-btn {
+    margin-bottom: 12px;
+}
+.delete-btn {
+    background-color: red;
+    &:hover:not(:disabled) {
+        background-color: rgb(107, 0, 0);
+    }
+}

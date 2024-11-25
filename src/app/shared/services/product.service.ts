@@ -1,0 +1,35 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { EditableProduct, NewProduct, Product } from '../types/product.type';
+import { DefaultResponse } from '@shared/types/response.type';
+
+@Injectable({ providedIn: 'root' })
+export class ProductService {
+    private readonly http = inject(HttpClient);
+    private readonly controller = 'products';
+
+    public getAll(): Observable<Product[]> {
+        return this.http.get<Product[]>(`${this.controller}/admin`);
+    }
+
+    public add(product: NewProduct): Observable<DefaultResponse> {
+        return this.http.post<DefaultResponse>(this.controller, product);
+    }
+
+    public update(product: EditableProduct): Observable<DefaultResponse> {
+        return this.http.put<DefaultResponse>(this.controller, product);
+    }
+
+    public setPrice({
+        productId,
+        price,
+    }: {
+        productId: string;
+        price: number;
+    }): Observable<DefaultResponse> {
+        return this.http.put<DefaultResponse>(`${this.controller}/price/${productId}`, {
+            price,
+        });
+    }
+}

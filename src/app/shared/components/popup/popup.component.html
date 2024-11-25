@@ -1,0 +1,15 @@
+@if (isVisible) {
+    <div class="popup-overlay" (click)="closePopup()"></div>
+    <div class="popup-container">
+        <div class="popup-header">
+            <button class="close-btn" (click)="closePopup()">×</button>
+        </div>
+        <div class="popup-body">
+            <ng-content></ng-content>
+        </div>
+        <div class="popup-footer">
+            <button class="btn save-btn" (click)="savePopup()">Save</button>
+            <button class="btn close-btn" (click)="closePopup()">Close</button>
+        </div>
+    </div>
+}

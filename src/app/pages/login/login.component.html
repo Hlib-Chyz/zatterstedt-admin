@@ -1,0 +1,17 @@
+<div class="login-container">
+    <h1>Login</h1>
+
+    @if (!isCodeSent) {
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+            <app-text-control label="Email" controlName="email" type="email" />
+            <app-text-control label="Password" controlName="password" type="password" />
+            <button type="submit" class="btn" [disabled]="loginForm.invalid">Login</button>
+        </form>
+    } @else {
+        <form [formGroup]="codeForm" (ngSubmit)="onSubmitCode()">
+            <app-text-control label="Enter Code" controlName="code" />
+
+            <button type="submit" class="btn" [disabled]="codeForm.invalid">Confirm</button>
+        </form>
+    }
+</div>

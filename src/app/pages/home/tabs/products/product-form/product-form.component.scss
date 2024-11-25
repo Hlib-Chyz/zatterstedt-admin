@@ -1,0 +1,14 @@
+ul {
+    margin-bottom: 15px;
+    li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        flex-grow: 1;
+        margin-bottom: 5px;
+        .form-group {
+            margin-bottom: 0;
+        }
+    }
+}
