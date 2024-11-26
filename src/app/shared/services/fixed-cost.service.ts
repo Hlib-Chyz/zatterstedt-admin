@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class FixedCostService {
     private readonly http = inject(HttpClient);
-    private readonly controller = 'development-costs';
+    private readonly controller = 'fixed-costs';
 
     public getAll(): Observable<FixedCost[]> {
         return this.http.get<FixedCost[]>(this.controller);

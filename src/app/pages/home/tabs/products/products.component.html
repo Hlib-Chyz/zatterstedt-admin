@@ -20,7 +20,7 @@
         <tr *ngFor="let product of products">
             <td>{{ product.name }}</td>
             <td>
-                <button (click)="openPricePopup(product._id, product.price)">
+                <button class="link" (click)="openPricePopup(product._id, product.price)">
                     {{ product.price | currency }}
                 </button>
             </td>
@@ -34,8 +34,10 @@
                 </ul>
             </td>
             <td>
-                <button (click)="openInventoryPopup(product.manufacturingCost)">Inventory</button>
-                <button (click)="openJobPopup(product.manufacturingCost)">Job</button>
+                <button class="link" (click)="openInventoryPopup(product.manufacturingCost)">
+                    Inventory
+                </button>
+                <button class="link" (click)="openJobPopup(product.manufacturingCost)">Job</button>
             </td>
             <td>{{ getStock(product) }}</td>
             <td>{{ getTotal(product) }}</td>
@@ -45,15 +47,19 @@
                         {{ cost.date | date }} - {{ cost.description }}: {{ cost.cost | currency }}
                     </li>
                 </ul>
-                <button (click)="openDevelopmentCostPopup(product._id)">Add</button>
+                <button class="link" (click)="openDevelopmentCostPopup(product._id)">Add</button>
             </td>
             <td>
-                <button (click)="openAdditionalCostPopup(product.additionalCost)">
+                <button class="link" (click)="openAdditionalCostPopup(product.additionalCost)">
                     {{ product.additionalCost.cost | currency }}
                 </button>
             </td>
             <td>
-                <button type="button" (click)="openProductPopup(product)" class="btn mew-btn">
+                <button
+                    class="link"
+                    type="button"
+                    (click)="openProductPopup(product)"
+                    class="btn mew-btn">
                     Update
                 </button>
             </td>

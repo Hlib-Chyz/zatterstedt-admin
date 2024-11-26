@@ -25,10 +25,10 @@
                     </div>
                     <app-text-control label="Quantity" controlName="quantity" type="number" />
                     <app-text-control label="Price" controlName="price" type="number" />
-                    <button (click)="removeVariant($index)">Remove</button>
+                    <button class="link" (click)="removeVariant($index)">Remove</button>
                 </li>
             }
         </ul>
-        <button (click)="addVariant()">Add</button>
+        <button class="link" (click)="addVariant()">Add</button>
     </ng-container>
 </form>

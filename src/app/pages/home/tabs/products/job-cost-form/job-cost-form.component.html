@@ -1,14 +1,14 @@
 <form [formGroup]="form()">
-    <ng-container formArrayName="job">
+    <ng-container formArrayName="jobs">
         <ul>
             @for (job of form().controls.jobs.controls; track job.value.name) {
                 <li [formGroupName]="$index">
                     <app-text-control label="Name" controlName="name" />
                     <app-text-control label="Cost" controlName="cost" type="number" />
-                    <button (click)="removeJob($index)">Remove</button>
+                    <button class="link" (click)="removeJob($index)">Remove</button>
                 </li>
             }
         </ul>
-        <button (click)="addJob()">Add</button>
+        <button class="link" (click)="addJob()">Add</button>
     </ng-container>
 </form>

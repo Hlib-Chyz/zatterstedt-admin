@@ -253,6 +253,7 @@ export class ProductsComponent implements OnInit {
     }
 
     public openProductPopup(product?: Product): void {
+        this.productForm.controls.variants.clear();
         this.productForm.setValue({
             _id: product?._id ?? '',
             name: product?.name ?? '',
@@ -274,8 +275,6 @@ export class ProductsComponent implements OnInit {
                     })
                 );
             });
-        } else {
-            this.productForm.controls.variants.clear();
         }
         this.productPopupRef()?.openPopup();
     }

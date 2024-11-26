@@ -11,7 +11,7 @@ import { ClientFormComponent } from './client-form/client-form.component';
 @Component({
     selector: 'app-clients',
     imports: [TableComponent, ClientFormComponent, PopupComponent],
-    templateUrl: './clients.component.html'
+    templateUrl: './clients.component.html',
 })
 export class ClientsComponent implements OnInit {
     private readonly clientService = inject(ClientService);
@@ -46,7 +46,7 @@ export class ClientsComponent implements OnInit {
     }
 
     public setContactsInfo(client: Client): void {
-        this.form.setValue(client);
+        this.form.setValue({ _id: client._id, contacts: client.contacts });
         this.popupRef()?.openPopup();
     }
 
