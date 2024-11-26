@@ -18,7 +18,7 @@ export class FixedCostService {
     }
 
     public update(body: FixedCost): Observable<DefaultResponse> {
-        return this.http.patch<DefaultResponse>(this.controller, body);
+        return this.http.put<DefaultResponse>(this.controller, body);
     }
 
     public delete(id: string): Observable<DefaultResponse> {

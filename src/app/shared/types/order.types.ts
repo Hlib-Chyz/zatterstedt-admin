@@ -9,7 +9,7 @@ export type Order = {
 };
 
 export type NewOrder = {
-    date: Date;
+    date: string;
     contacts: string;
     userName: string;
     variants: VariantOrder[];
@@ -24,7 +24,7 @@ export type OrderProduct = {
 
 export type OrderForm = FormGroup<{
     contacts: FormControl<string>;
-    date: FormControl<Date>;
+    date: FormControl<string>;
     userName: FormControl<string>;
     variants: FormArray<
         FormGroup<{

@@ -34,7 +34,7 @@
                     <td>
                         <button
                             type="button"
-                            (click)="remove.emit(item._id)"
+                            (click)="openConfirmationPopup(item._id)"
                             class="btn delete-btn">
                             Delete
                         </button>
@@ -44,3 +44,4 @@
         }
     </tbody>
 </table>
+<app-popup (save)="removeItem()" #popup> Would you like delete this item? </app-popup>

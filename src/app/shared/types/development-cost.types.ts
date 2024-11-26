@@ -8,14 +8,14 @@ export type DevelopmentCostProduct = {
 };
 
 export type NewDevelopmentCost = {
-    date: Date;
+    date: string;
     description: string;
     cost: number;
     productId: string;
 };
 
 export type DevelopmentCostForm = FormGroup<{
-    date: FormControl<Date>;
+    date: FormControl<string>;
     description: FormControl<string>;
     cost: FormControl<number>;
     productId: FormControl<string>;

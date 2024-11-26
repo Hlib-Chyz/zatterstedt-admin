@@ -6,6 +6,6 @@ export type JobManufacturingCostProduct = {
 };
 
 export type JobForm = FormGroup<{
-    jobs: FormArray<FormGroup<{ name: FormControl<string>; cost: FormControl<number> }>>;
+    job: FormArray<FormGroup<{ name: FormControl<string>; cost: FormControl<number> }>>;
     _id: FormControl<string>;
 }>;

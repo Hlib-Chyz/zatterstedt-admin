@@ -15,6 +15,8 @@ import { InventoryFormArray, InventoryProductForm } from '@shared/types/inventor
 import { JobForm } from '@shared/types/job.types';
 import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
 import { PriceForm } from '@shared/types/price.types';
+import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
+import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
 import { Observable, switchMap, tap } from 'rxjs';
 import PopupComponent from '../../../../shared/components/popup/popup.component';
 import { AdditionalCostService } from '../../../../shared/services/additional-cost.service';
@@ -22,7 +24,7 @@ import { DevelopmentCostService } from '../../../../shared/services/development-
 import { InventoryService } from '../../../../shared/services/inventory.service';
 import { ManufacturingCostService } from '../../../../shared/services/manufacturing-cost.service';
 import { ProductService } from '../../../../shared/services/product.service';
-import { Product, ProductForm } from '../../../../shared/types/product.type';
+import { EditableProduct, Product, ProductForm } from '../../../../shared/types/product.type';
 import { AdditionalCostFormComponent } from './additional-cost-form/additional-cost-form.component';
 import { DevelopmentCostFormComponent } from './development-cost-form/development-cost-form.component';
 import { InventoryFormComponent } from './inventory-form/inventory-form.component';
@@ -66,14 +68,14 @@ export class ProductsComponent implements OnInit {
         cost: [0, [Validators.required, Validators.min(0)]],
         _id: ['', Validators.required],
     });
-    public readonly jobsForm: JobForm = this.fb.group({
-        jobs: this.fb.array([]) as unknown as FormArray<
+    public readonly jobForm: JobForm = this.fb.group({
+        job: this.fb.array([]) as unknown as FormArray<
             FormGroup<{ name: FormControl<string>; cost: FormControl<number> }>
         >,
         _id: ['', Validators.required],
     });
     public readonly developmentCostForm: DevelopmentCostForm = this.fb.group({
-        date: [new Date(), Validators.required],
+        date: [formatDateToYYYYMMDD(), Validators.required],
         description: ['', Validators.required],
         cost: [0, [Validators.required, Validators.min(0)]],
         productId: ['', Validators.required],
@@ -83,7 +85,7 @@ export class ProductsComponent implements OnInit {
         inventory: this.fb.array([]) as unknown as InventoryFormArray,
     });
     public readonly productForm: ProductForm = this.fb.group({
-        _id: ['', Validators.required],
+        _id: '',
         name: ['', Validators.required],
         description: ['', Validators.required],
         price: [0, [Validators.required, Validators.min(0)]],
@@ -120,7 +122,7 @@ export class ProductsComponent implements OnInit {
             return sum;
         }, 0);
         const job =
-            (product.manufacturingCost.jobs.reduce((sum, job) => {
+            (product.manufacturingCost.job.reduce((sum, job) => {
                 sum += job.cost;
                 return sum;
             }, 0) *
@@ -154,10 +156,10 @@ export class ProductsComponent implements OnInit {
     }
 
     public openJobPopup(manufacturingCost: ManufacturingCostProduct): void {
-        this.jobsForm.controls.jobs.clear();
-        if (manufacturingCost.jobs.length) {
-            manufacturingCost.jobs.forEach((job) => {
-                this.jobsForm.controls.jobs.push(
+        this.jobForm.controls.job.clear();
+        if (manufacturingCost.job.length) {
+            manufacturingCost.job.forEach((job) => {
+                this.jobForm.controls.job.push(
                     this.fb.group({
                         name: [job.name, Validators.required],
                         cost: [job.cost, [Validators.required, Validators.min(0)]],
@@ -165,14 +167,14 @@ export class ProductsComponent implements OnInit {
                 );
             });
         } else {
-            this.jobsForm.controls.jobs.push(
+            this.jobForm.controls.job.push(
                 this.fb.group({
                     name: ['', Validators.required],
                     cost: [0, [Validators.required, Validators.min(0)]],
                 })
             );
         }
-        this.jobsForm.patchValue({
+        this.jobForm.patchValue({
             _id: manufacturingCost._id,
         });
         this.jobPopupRef()?.openPopup();
@@ -184,7 +186,7 @@ export class ProductsComponent implements OnInit {
 
     public openDevelopmentCostPopup(productId: string): void {
         this.developmentCostForm.setValue({
-            date: new Date(),
+            date: formatDateToYYYYMMDD(),
             description: '',
             cost: 0,
             productId,
@@ -337,28 +339,28 @@ export class ProductsComponent implements OnInit {
 
     public addProduct(): void {
         if (this.productForm.valid) {
-            this.productService[this.productForm.getRawValue()._id ? 'update' : 'add'](
-                this.productForm.getRawValue()
-            )
-                .pipe(switchMap(() => this.getProducts()))
-                .subscribe(() => {
-                    this.productPopupRef()?.closePopup();
-                });
+            const formData = this.productForm.getRawValue();
+            const saveOperation = formData._id
+                ? this.productService.update(formData)
+                : this.productService.add(extractFormDataWithoutId<EditableProduct>(formData));
+            saveOperation.pipe(switchMap(() => this.getProducts())).subscribe(() => {
+                this.productPopupRef()?.closePopup();
+            });
         } else {
             this.productForm.markAllAsTouched();
         }
     }
 
     public changeJob(): void {
-        if (this.jobsForm.valid) {
+        if (this.jobForm.valid) {
             this.manufacturingCostService
-                .setJob(this.jobsForm.getRawValue())
+                .setJob(this.jobForm.getRawValue())
                 .pipe(switchMap(() => this.getProducts()))
                 .subscribe(() => {
                     this.jobPopupRef()?.closePopup();
                 });
         } else {
-            this.jobsForm.markAllAsTouched();
+            this.jobForm.markAllAsTouched();
         }
     }
 

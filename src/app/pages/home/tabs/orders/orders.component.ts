@@ -13,11 +13,12 @@ import TableComponent from '../../../../shared/components/table/table.component'
 import { OrderService } from '../../../../shared/services/order.service';
 import { Order, OrderForm } from '../../../../shared/types/order.types';
 import { OrderFormComponent } from './order-form/order-form.component';
+import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
 
 @Component({
     selector: 'app-orders',
     imports: [PopupComponent, OrderFormComponent, TableComponent],
-    templateUrl: './orders.component.html'
+    templateUrl: './orders.component.html',
 })
 export class OrdersComponent implements OnInit {
     private readonly orderService = inject(OrderService);
@@ -29,7 +30,7 @@ export class OrdersComponent implements OnInit {
         { field: 'variants', name: 'Variants' },
     ];
     public form: OrderForm = this.fb.group({
-        date: [new Date(), Validators.required],
+        date: [formatDateToYYYYMMDD(), Validators.required],
         contacts: ['', Validators.required],
         userName: ['', Validators.required],
         variants: this.fb.array([]) as unknown as FormArray<
@@ -62,7 +63,7 @@ export class OrdersComponent implements OnInit {
     public add(): void {
         this.form.controls.variants.clear();
         this.form.setValue({
-            date: new Date(),
+            date: formatDateToYYYYMMDD(),
             contacts: '',
             userName: '',
             variants: [],

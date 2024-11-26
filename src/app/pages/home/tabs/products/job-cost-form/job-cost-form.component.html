@@ -1,7 +1,7 @@
 <form [formGroup]="form()">
-    <ng-container formArrayName="jobs">
+    <ng-container formArrayName="job">
         <ul>
-            @for (job of form().controls.jobs.controls; track job.value.name) {
+            @for (job of form().controls.job.controls; track job.value.name) {
                 <li [formGroupName]="$index">
                     <app-text-control label="Name" controlName="name" />
                     <app-text-control label="Cost" controlName="cost" type="number" />

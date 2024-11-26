@@ -7,18 +7,11 @@ export type OtherCost = {
     cost: number;
 };
 
-export type EditableOtherCost = {
-    _id: string;
-    date: Date;
-    name: string;
-    cost: number;
-};
-
-export type NewOtherCost = Omit<EditableOtherCost, '_id'>;
+export type NewOtherCost = Omit<OtherCost, '_id'>;
 
 export type OtherCostForm = FormGroup<{
     _id: FormControl<string>;
     name: FormControl<string>;
     cost: FormControl<number>;
-    date: FormControl<Date>;
+    date: FormControl<string>;
 }>;

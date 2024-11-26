@@ -9,16 +9,7 @@ export type Inventory = {
     date: string;
 };
 
-export type EditableInventory = {
-    _id: string;
-    name: string;
-    totalCost: number;
-    amount: number;
-    used: number;
-    date: Date;
-};
-
-export type NewInventory = Omit<EditableInventory, '_id'>;
+export type NewInventory = Omit<Inventory, '_id'>;
 
 export type InventoryManufacturingCostProduct = {
     inventoryId: string;
@@ -34,7 +25,7 @@ export type InventoryForm = FormGroup<{
     totalCost: FormControl<number>;
     amount: FormControl<number>;
     used: FormControl<number>;
-    date: FormControl<Date>;
+    date: FormControl<string>;
 }>;
 
 export type InventoryFormArray = FormArray<

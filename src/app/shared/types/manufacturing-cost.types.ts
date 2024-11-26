@@ -3,6 +3,6 @@ import { JobManufacturingCostProduct } from './job.types';
 
 export type ManufacturingCostProduct = {
     _id: string;
-    jobs: JobManufacturingCostProduct[];
+    job: JobManufacturingCostProduct[];
     inventory: InventoryManufacturingCostProduct[];
 };

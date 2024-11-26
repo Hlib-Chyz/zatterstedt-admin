@@ -22,11 +22,11 @@ export class ManufacturingCostService {
 
     public setJob({
         _id,
-        jobs,
+        job,
     }: {
         _id: string;
-        jobs: JobManufacturingCostProduct[];
+        job: JobManufacturingCostProduct[];
     }): Observable<DefaultResponse> {
-        return this.http.put<DefaultResponse>(`${this.controller}/job-cost/${_id}`, { jobs });
+        return this.http.put<DefaultResponse>(`${this.controller}/job-cost/${_id}`, { job });
     }
 }

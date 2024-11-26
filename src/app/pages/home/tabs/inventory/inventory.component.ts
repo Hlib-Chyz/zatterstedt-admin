@@ -8,11 +8,12 @@ import PopupComponent from '../../../../shared/components/popup/popup.component'
 import TableComponent from '../../../../shared/components/table/table.component';
 import { InventoryService } from '../../../../shared/services/inventory.service';
 import { InventoryFormComponent } from './inventory-form/inventory-form.component';
+import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
 
 @Component({
     selector: 'app-inventory',
     imports: [TableComponent, PopupComponent, InventoryFormComponent],
-    templateUrl: './inventory.component.html'
+    templateUrl: './inventory.component.html',
 })
 export class InventoryComponent implements OnInit {
     private readonly inventoryService = inject(InventoryService);
@@ -46,7 +47,7 @@ export class InventoryComponent implements OnInit {
         totalCost: [0, [Validators.required, Validators.min(0)]],
         amount: [0, [Validators.required, Validators.min(0)]],
         used: [0, [Validators.required, Validators.min(0)]],
-        date: [new Date(), Validators.required],
+        date: [formatDateToYYYYMMDD(), Validators.required],
     });
     public popupRef = viewChild<PopupComponent>('popup');
 
@@ -75,13 +76,13 @@ export class InventoryComponent implements OnInit {
             totalCost: 0,
             amount: 0,
             used: 0,
-            date: new Date(),
+            date: formatDateToYYYYMMDD(),
         });
         this.popupRef()?.openPopup();
     }
 
     public update(item: Inventory): void {
-        this.form.setValue({ ...item, date: new Date(item.date) });
+        this.form.setValue(item);
         this.popupRef()?.openPopup();
     }
 

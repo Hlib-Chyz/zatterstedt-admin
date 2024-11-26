@@ -8,11 +8,12 @@ import PopupComponent from '../../../../shared/components/popup/popup.component'
 import { OtherCostService } from '../../../../shared/services/other-cost.service';
 import { NewOtherCost, OtherCost, OtherCostForm } from '../../../../shared/types/other-cost.types';
 import { OtherCostFormComponent } from './other-cost-form/other-cost-form.component';
+import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
 
 @Component({
     selector: 'app-other-costs',
     imports: [PopupComponent, OtherCostFormComponent, TableComponent],
-    templateUrl: './other-costs.component.html'
+    templateUrl: './other-costs.component.html',
 })
 export class OtherCostsComponent implements OnInit {
     private readonly otherCostService = inject(OtherCostService);
@@ -27,7 +28,7 @@ export class OtherCostsComponent implements OnInit {
         _id: '',
         name: ['', Validators.required],
         cost: [0, [Validators.required, Validators.min(0)]],
-        date: [new Date(), Validators.required],
+        date: [formatDateToYYYYMMDD(), Validators.required],
     });
     public popupRef = viewChild<PopupComponent>('popup');
 
@@ -54,13 +55,13 @@ export class OtherCostsComponent implements OnInit {
             _id: '',
             name: '',
             cost: 0,
-            date: new Date(),
+            date: formatDateToYYYYMMDD(),
         });
         this.popupRef()?.openPopup();
     }
 
     public update(item: OtherCost): void {
-        this.form.setValue({ ...item, date: new Date(item.date) });
+        this.form.setValue(item);
         this.popupRef()?.openPopup();
     }
 

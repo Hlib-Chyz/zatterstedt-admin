@@ -20,7 +20,7 @@ export class ClientService {
         _id: string;
         contacts: string;
     }): Observable<DefaultResponse> {
-        return this.http.post<DefaultResponse>(`${this.controller}/contacts/${_id}`, {
+        return this.http.put<DefaultResponse>(`${this.controller}/contacts/${_id}`, {
             contacts,
         });
     }
