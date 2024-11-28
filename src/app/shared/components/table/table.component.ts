@@ -15,6 +15,7 @@ export default class TableComponent<T extends { _id: string }> {
     private removedId = '';
     public popupRef = viewChild<PopupComponent>('popup');
     public readonly columns = input.required<ColumnsFromData<T>>();
+    public readonly isShowNumber = input<boolean>(false);
     public data = input.required<T[]>();
     public isVisible = false;
 

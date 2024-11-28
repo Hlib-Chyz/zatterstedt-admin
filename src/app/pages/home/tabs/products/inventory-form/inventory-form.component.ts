@@ -1,13 +1,14 @@
 import { Component, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ErrorMessagesComponent } from '@shared/components/error-messages/error-messages.component';
 import { TextControlComponent } from '@shared/components/text-control/text-control.component';
 import { InventoryProductForm } from '@shared/types/inventory.types';
 import { InventoryService } from '../../../../../shared/services/inventory.service';
 
 @Component({
     selector: 'app-inventory-form',
-    imports: [ReactiveFormsModule, TextControlComponent],
+    imports: [ReactiveFormsModule, TextControlComponent, ErrorMessagesComponent],
     templateUrl: './inventory-form.component.html',
     styleUrl: './inventory-form.component.scss',
 })
@@ -19,7 +20,7 @@ export class InventoryFormComponent {
 
     public addInventory(): void {
         const newInventory = this.fb.group({
-            duringManufacture: false as boolean,
+            duringManufacture: false,
             inventoryId: ['', Validators.required],
             cost: [0, [Validators.required, Validators.min(0)]],
             quantityInUse: [0, [Validators.required, Validators.min(0)]],

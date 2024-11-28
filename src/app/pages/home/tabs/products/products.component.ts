@@ -222,7 +222,7 @@ export class ProductsComponent implements OnInit {
             });
         } else {
             const newInventory = this.fb.group({
-                duringManufacture: false as boolean,
+                duringManufacture: false,
                 inventoryId: ['', Validators.required],
                 quantityInUse: [0, [Validators.required, Validators.min(0)]],
                 quantityInCost: [0, [Validators.required, Validators.min(0)]],
