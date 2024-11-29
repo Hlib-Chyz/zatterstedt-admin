@@ -14,8 +14,10 @@
                                 track materialOption._id
                             ) {
                                 <option [value]="materialOption._id">
-                                    {{ materialOption.name }} -
-                                    {{ materialOption.amount - materialOption.used }}
+                                    {{ materialOption.name }} - залишок/{{
+                                        materialOption.amount - materialOption.used
+                                    }}
+                                    - paid/{{ materialOption.paid }}
                                 </option>
                             }
                         </select>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Inventory, NewInventory } from '@shared/types/inventory.types';
+import { EditableInventory, Inventory, NewInventory } from '@shared/types/inventory.types';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -16,7 +16,7 @@ export class InventoryService {
         return this.http.post<Response>(this.controller, body);
     }
 
-    public update(body: Inventory): Observable<Response> {
+    public update(body: EditableInventory): Observable<Response> {
         return this.http.put<Response>(this.controller, body);
     }
 

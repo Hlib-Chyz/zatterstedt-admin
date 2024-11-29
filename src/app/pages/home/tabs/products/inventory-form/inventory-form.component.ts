@@ -4,6 +4,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { ErrorMessagesComponent } from '@shared/components/error-messages/error-messages.component';
 import { TextControlComponent } from '@shared/components/text-control/text-control.component';
 import { InventoryProductForm } from '@shared/types/inventory.types';
+import { map } from 'rxjs';
 import { InventoryService } from '../../../../../shared/services/inventory.service';
 
 @Component({
@@ -16,7 +17,11 @@ export class InventoryFormComponent {
     private readonly inventoryService = inject(InventoryService);
     private readonly fb = inject(NonNullableFormBuilder);
     public readonly form = input.required<InventoryProductForm>();
-    public availableMaterials = toSignal(this.inventoryService.getAll());
+    public availableMaterials = toSignal(
+        this.inventoryService
+            .getAll()
+            .pipe(map((inventory) => inventory.filter((inv) => inv.amount - inv.used > 0)))
+    );
 
     public addInventory(): void {
         const newInventory = this.fb.group({

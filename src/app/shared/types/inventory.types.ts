@@ -6,10 +6,13 @@ export type Inventory = {
     totalCost: number;
     amount: number;
     used: number;
+    paid: number;
     date: string;
 };
 
-export type NewInventory = Omit<Inventory, '_id'>;
+export type EditableInventory = Omit<Inventory, 'paid'>;
+
+export type NewInventory = Omit<EditableInventory, '_id'>;
 
 export type InventoryManufacturingCostProduct = {
     inventoryId: string;

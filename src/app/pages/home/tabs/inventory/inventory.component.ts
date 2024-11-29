@@ -36,6 +36,10 @@ export class InventoryComponent implements OnInit {
             name: 'Used',
         },
         {
+            field: 'paid',
+            name: 'Paid',
+        },
+        {
             field: 'date',
             name: 'Date',
         },
