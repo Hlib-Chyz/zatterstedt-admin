@@ -14,7 +14,15 @@ export type NewDevelopmentCost = {
     productId: string;
 };
 
+export type EditableDevelopmentCost = {
+    _id: string;
+    date: string;
+    description: string;
+    cost: number;
+};
+
 export type DevelopmentCostForm = FormGroup<{
+    _id: FormControl<string>;
     date: FormControl<string>;
     description: FormControl<string>;
     cost: FormControl<number>;

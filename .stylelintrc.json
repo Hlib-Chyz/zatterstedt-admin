@@ -5,7 +5,13 @@
         "selector-type-no-unknown": [
             true,
             {
-                "ignoreTypes": ["/^zatterstedt-admin-/", "/^zatterstedt-/", ":host", ":root"]
+                "ignoreTypes": [
+                    "/^zatterstedt-admin-/",
+                    "/^zatterstedt-/",
+                    "/^mat-/",
+                    ":host",
+                    ":root"
+                ]
             }
         ],
         "selector-pseudo-element-no-unknown": [

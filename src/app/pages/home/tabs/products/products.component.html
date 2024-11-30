@@ -17,59 +17,77 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let product of products">
-            <td>{{ product.name }}</td>
-            <td>
-                <button class="link" (click)="openPricePopup(product._id, product.price)">
-                    {{ product.price | currency }}
-                </button>
-            </td>
-            <td>{{ getCostPrice(product) | currency }}</td>
-            <td>
-                <ul>
-                    <li *ngFor="let variant of product.variants">
-                        {{ variant.size }} / {{ variant.color }} - In stock:
-                        {{ variant.stock.total - variant.stock.sold }}
-                    </li>
-                </ul>
-            </td>
-            <td>
-                <button class="link" (click)="openInventoryPopup(product.manufacturingCost)">
-                    Inventory
-                </button>
-                <button class="link" (click)="openJobPopup(product.manufacturingCost)">Job</button>
-            </td>
-            <td>{{ getStock(product) }}</td>
-            <td>{{ getTotal(product) }}</td>
-            <td>
-                <ul class="development-cost-list">
-                    <li *ngFor="let cost of product.developmentCosts">
-                        {{ cost.date | date }} - {{ cost.description }}: {{ cost.cost | currency }}
-                    </li>
-                </ul>
-                <button class="link" (click)="openDevelopmentCostPopup(product._id)">Add</button>
-            </td>
-            <td>
-                <button class="link" (click)="openAdditionalCostPopup(product.additionalCost)">
-                    {{ product.additionalCost.cost | currency }}
-                </button>
-            </td>
-            <td>
-                <button
-                    class="link"
-                    type="button"
-                    (click)="openProductPopup(product)"
-                    class="btn mew-btn">
-                    Update
-                </button>
-            </td>
-        </tr>
+        @for (product of products; track product._id) {
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>
+                    <button class="link" (click)="openPricePopup(product._id, product.price)">
+                        {{ product.price | currency }}
+                    </button>
+                </td>
+                <td>{{ getCostPrice(product) | currency }}</td>
+                <td>
+                    <ul>
+                        @for (variant of product.variants; track variant._id) {
+                            <li>
+                                {{ variant.size }} / {{ variant.color }} - In stock:
+                                {{ variant.stock.total - variant.stock.sold }}
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <button class="link" (click)="openInventoryPopup(product.manufacturingCost)">
+                        Inventory
+                    </button>
+                    <button class="link" (click)="openJobPopup(product.manufacturingCost)">
+                        Job
+                    </button>
+                </td>
+                <td>{{ getStock(product) }}</td>
+                <td>{{ getTotal(product) }}</td>
+                <td>
+                    <ul class="development-cost-list">
+                        @for (cost of product.developmentCosts; track cost._id) {
+                            <li>
+                                {{ cost.date }} - {{ cost.description }}: {{ cost.cost | currency }}
+                                <button
+                                    class="link"
+                                    (click)="openDevelopmentCostPopup(product._id, cost)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button class="link" (click)="openConfirmationPopup(cost._id)">
+                                    <mat-icon class="delete">delete</mat-icon>
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                    <button class="link" (click)="openDevelopmentCostPopup(product._id)">
+                        Add
+                    </button>
+                </td>
+                <td>
+                    <button class="link" (click)="openAdditionalCostPopup(product.additionalCost)">
+                        {{ product.additionalCost.cost | currency }}
+                    </button>
+                </td>
+                <td>
+                    <button
+                        class="link"
+                        type="button"
+                        (click)="openProductPopup(product)"
+                        class="btn mew-btn">
+                        Update
+                    </button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 <app-popup (save)="setAdditionalCost()" #additionalCostPopup>
     <app-additional-cost-form [form]="additionalCostForm" />
 </app-popup>
-<app-popup (save)="addDevelopmentCost()" #developmentCostPopup>
+<app-popup (save)="actionDevelopmentCost()" #developmentCostPopup>
     <app-development-cost-form [form]="developmentCostForm" />
 </app-popup>
 <app-popup (save)="setInventory()" #inventoryPopup>
@@ -83,4 +101,7 @@
 </app-popup>
 <app-popup (save)="changeJob()" #jobPopup>
     <app-job-cost-form [form]="jobForm" />
+</app-popup>
+<app-popup (save)="removeDevelopmentCost()" #confirmationPopup>
+    Would you like delete development cost?
 </app-popup>

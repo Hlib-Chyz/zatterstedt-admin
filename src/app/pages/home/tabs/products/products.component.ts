@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { CurrencyPipe, DatePipe, NgFor } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -22,7 +22,11 @@ import { InventoryService } from '@shared/services/inventory.service';
 import { ManufacturingCostService } from '@shared/services/manufacturing-cost.service';
 import { ProductService } from '@shared/services/product.service';
 import { AdditionalCost, AdditionalCostForm } from '@shared/types/additional-cost.types';
-import { DevelopmentCostForm } from '@shared/types/development-cost.types';
+import {
+    DevelopmentCostForm,
+    DevelopmentCostProduct,
+    NewDevelopmentCost,
+} from '@shared/types/development-cost.types';
 import { InventoryFormArray, InventoryProductForm } from '@shared/types/inventory.types';
 import { JobForm } from '@shared/types/job.types';
 import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
@@ -31,6 +35,7 @@ import { EditableProduct, Product, ProductForm } from '@shared/types/product.typ
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-products',
@@ -38,15 +43,14 @@ import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
     styleUrls: ['./products.component.scss'],
     imports: [
         CurrencyPipe,
-        NgFor,
         PopupComponent,
         AdditionalCostFormComponent,
         DevelopmentCostFormComponent,
-        DatePipe,
         InventoryFormComponent,
         PriceFormComponent,
         ProductFormComponent,
         JobFormComponent,
+        MatIconModule,
     ],
 })
 export class ProductsComponent implements OnInit {
@@ -57,8 +61,10 @@ export class ProductsComponent implements OnInit {
     private readonly productService = inject(ProductService);
     private readonly inventoryService = inject(InventoryService);
     private refresh$ = new BehaviorSubject<void>(void 0);
+    private deletedDevelopmentCostId = '';
     public additionalCostPopupRef = viewChild<PopupComponent>('additionalCostPopup');
     public developmentCostPopupRef = viewChild<PopupComponent>('developmentCostPopup');
+    public confirmationPopupRef = viewChild<PopupComponent>('confirmationPopup');
     public inventoryPopupRef = viewChild<PopupComponent>('inventoryPopup');
     public pricePopupRef = viewChild<PopupComponent>('pricePopup');
     public productPopupRef = viewChild<PopupComponent>('productPopup');
@@ -78,6 +84,7 @@ export class ProductsComponent implements OnInit {
         _id: ['', Validators.required],
     });
     public readonly developmentCostForm: DevelopmentCostForm = this.fb.group({
+        _id: '',
         date: [formatDateToYYYYMMDD(), Validators.required],
         description: ['', Validators.required],
         cost: [0, [Validators.required, Validators.min(0)]],
@@ -187,13 +194,24 @@ export class ProductsComponent implements OnInit {
         this.jobPopupRef()?.closePopup();
     }
 
-    public openDevelopmentCostPopup(productId: string): void {
-        this.developmentCostForm.setValue({
-            date: formatDateToYYYYMMDD(),
-            description: '',
-            cost: 0,
-            productId,
-        });
+    public openDevelopmentCostPopup(
+        productId: string,
+        developmentCost?: DevelopmentCostProduct
+    ): void {
+        if (developmentCost) {
+            this.developmentCostForm.setValue({
+                ...developmentCost,
+                productId,
+            });
+        } else {
+            this.developmentCostForm.setValue({
+                _id: '',
+                date: formatDateToYYYYMMDD(),
+                description: '',
+                cost: 0,
+                productId,
+            });
+        }
         this.developmentCostPopupRef()?.openPopup();
     }
 
@@ -300,17 +318,36 @@ export class ProductsComponent implements OnInit {
         }
     }
 
-    public addDevelopmentCost(): void {
-        if (this.developmentCostForm.valid) {
-            this.developmentCostService
-                .add(this.developmentCostForm.getRawValue())
-                .pipe(switchMap(() => this.getProducts()))
-                .subscribe(() => {
-                    this.developmentCostPopupRef()?.closePopup();
-                });
-        } else {
+    public actionDevelopmentCost(): void {
+        if (this.developmentCostForm.invalid) {
             this.developmentCostForm.markAllAsTouched();
+            return;
         }
+        const formData = this.developmentCostForm.getRawValue();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { productId, ...rest } = formData;
+        const saveOperation = formData._id
+            ? this.developmentCostService.update(rest)
+            : this.developmentCostService.add(
+                  extractFormDataWithoutId<NewDevelopmentCost>(formData)
+              );
+        saveOperation.pipe(switchMap(() => this.getProducts())).subscribe(() => {
+            this.developmentCostPopupRef()?.closePopup();
+        });
+    }
+
+    public removeDevelopmentCost(): void {
+        this.developmentCostService
+            .delete(this.deletedDevelopmentCostId)
+            .pipe(switchMap(() => this.getProducts()))
+            .subscribe(() => {
+                this.confirmationPopupRef()?.closePopup();
+            });
+    }
+
+    public openConfirmationPopup(id: string): void {
+        this.deletedDevelopmentCostId = id;
+        this.confirmationPopupRef()?.openPopup();
     }
 
     public setInventory(): void {
