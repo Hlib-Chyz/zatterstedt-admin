@@ -2,8 +2,8 @@ import { Component, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextControlComponent } from '@shared/components/text-control/text-control.component';
+import { VariantService } from '@shared/services/variant.service';
 import { OrderForm } from '@shared/types/order.types';
-import { VariantService } from '../../../../../shared/services/variant.service';
 
 @Component({
     selector: 'app-order-form',

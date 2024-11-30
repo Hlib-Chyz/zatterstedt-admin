@@ -6,8 +6,8 @@ import {
     HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { AuthService } from '@shared/services/auth.service';
 import { catchError, throwError } from 'rxjs';
-import { AuthService } from '../services/auth.service';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {

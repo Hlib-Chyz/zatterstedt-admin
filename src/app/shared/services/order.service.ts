@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { NewOrder, Order } from '@shared/types/order.types';
 import { DefaultResponse } from '@shared/types/response.type';
 import { Observable } from 'rxjs';
-import { NewOrder, Order } from '../types/order.types';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {

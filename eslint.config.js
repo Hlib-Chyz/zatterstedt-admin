@@ -313,6 +313,12 @@ export default tseslint.config(
             'import/extensions': 'off',
             '@angular-eslint/no-output-on-prefix': 'off',
             '@typescript-eslint/adjacent-overload-signatures': 'off',
+            'no-restricted-imports': [
+                'error',
+                {
+                    patterns: ['../*', './*'],
+                },
+            ],
         },
     },
     {

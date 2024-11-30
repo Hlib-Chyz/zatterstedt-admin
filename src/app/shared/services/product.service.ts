@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { EditableProduct, NewProduct, Product } from '../types/product.type';
+import { EditableProduct, NewProduct, Product } from '@shared/types/product.type';
 import { DefaultResponse } from '@shared/types/response.type';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {

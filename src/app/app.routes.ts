@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Path } from './shared/types/path.types';
+import { Path } from '@shared/types/path.types';
 
 export const routes: Routes = [
     {

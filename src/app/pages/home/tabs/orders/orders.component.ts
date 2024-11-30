@@ -6,14 +6,14 @@ import {
     NonNullableFormBuilder,
     Validators,
 } from '@angular/forms';
+import { OrderFormComponent } from '@app/pages/home/tabs/orders/order-form/order-form.component';
+import PopupComponent from '@shared/components/popup/popup.component';
+import TableComponent from '@shared/components/table/table.component';
+import { OrderService } from '@shared/services/order.service';
+import { Order, OrderForm } from '@shared/types/order.types';
 import { ColumnsFromData } from '@shared/types/table.types';
-import { Observable, switchMap, tap } from 'rxjs';
-import PopupComponent from '../../../../shared/components/popup/popup.component';
-import TableComponent from '../../../../shared/components/table/table.component';
-import { OrderService } from '../../../../shared/services/order.service';
-import { Order, OrderForm } from '../../../../shared/types/order.types';
-import { OrderFormComponent } from './order-form/order-form.component';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
+import { Observable, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-orders',

@@ -1,5 +1,5 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { VariantOrder, VariantOrderProduct } from './variant.types';
+import { VariantOrder, VariantOrderProduct } from '@shared/types/variant.types';
 
 export type Order = {
     _id: string;

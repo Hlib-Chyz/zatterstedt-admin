@@ -2,14 +2,14 @@ import { AfterViewInit, Component, ElementRef, inject, viewChild } from '@angula
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TextControlComponent } from '@shared/components/text-control/text-control.component';
+import { AuthService } from '@shared/services/auth.service';
+import { Path } from '@shared/types/path.types';
 import { delay, tap } from 'rxjs';
-import { AuthService } from '../../shared/services/auth.service';
-import { Path } from '../../shared/types/path.types';
 
 @Component({
     templateUrl: 'login.component.html',
     styleUrl: 'login.component.scss',
-    imports: [ReactiveFormsModule, TextControlComponent]
+    imports: [ReactiveFormsModule, TextControlComponent],
 })
 export default class LoginComponent implements AfterViewInit {
     private readonly fb = inject(NonNullableFormBuilder);

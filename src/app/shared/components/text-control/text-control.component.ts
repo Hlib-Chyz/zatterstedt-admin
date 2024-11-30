@@ -1,6 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { ControlContainer, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ErrorMessagesComponent } from '../error-messages/error-messages.component';
+import { ErrorMessagesComponent } from '@shared/components/error-messages/error-messages.component';
 
 @Component({
     selector: 'app-text-control',

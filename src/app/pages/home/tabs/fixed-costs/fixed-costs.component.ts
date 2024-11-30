@@ -1,19 +1,19 @@
 import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { FixedCostFormComponent } from '@app/pages/home/tabs/fixed-costs/fixed-cost-form/fixed-cost-form.component';
+import PopupComponent from '@shared/components/popup/popup.component';
+import TableComponent from '@shared/components/table/table.component';
+import { FixedCostService } from '@shared/services/fixed-cost.service';
+import { FixedCost, FixedCostForm, NewFixedCost } from '@shared/types/fixed-cost.types';
 import { ColumnsFromData } from '@shared/types/table.types';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
 import { Observable, switchMap, tap } from 'rxjs';
-import PopupComponent from '../../../../shared/components/popup/popup.component';
-import TableComponent from '../../../../shared/components/table/table.component';
-import { FixedCostService } from '../../../../shared/services/fixed-cost.service';
-import { FixedCost, FixedCostForm, NewFixedCost } from '../../../../shared/types/fixed-cost.types';
-import { FixedCostFormComponent } from './fixed-cost-form/fixed-cost-form.component';
 
 @Component({
     selector: 'app-fixed-costs',
     imports: [PopupComponent, FixedCostFormComponent, TableComponent],
     templateUrl: './fixed-costs.component.html',
-    styleUrl: './fixed-costs.component.scss'
+    styleUrl: './fixed-costs.component.scss',
 })
 export class FixedCostsComponent implements OnInit {
     private readonly fixedCostService = inject(FixedCostService);

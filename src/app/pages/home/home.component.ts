@@ -1,14 +1,14 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ClientsComponent } from '@app/pages/home/tabs/clients/clients.component';
+import { FixedCostsComponent } from '@app/pages/home/tabs/fixed-costs/fixed-costs.component';
+import { InventoryComponent } from '@app/pages/home/tabs/inventory/inventory.component';
+import { OrdersComponent } from '@app/pages/home/tabs/orders/orders.component';
+import { OtherCostsComponent } from '@app/pages/home/tabs/other-costs/other-costs.component';
+import { ProductsComponent } from '@app/pages/home/tabs/products/products.component';
+import { Tabs } from '@shared/types/tab.types';
 import { filter } from 'rxjs';
-import { Tabs } from '../../shared/types/tab.types';
-import { ClientsComponent } from './tabs/clients/clients.component';
-import { FixedCostsComponent } from './tabs/fixed-costs/fixed-costs.component';
-import { InventoryComponent } from './tabs/inventory/inventory.component';
-import { OrdersComponent } from './tabs/orders/orders.component';
-import { OtherCostsComponent } from './tabs/other-costs/other-costs.component';
-import { ProductsComponent } from './tabs/products/products.component';
 
 @Component({
     templateUrl: 'home.component.html',
@@ -20,7 +20,7 @@ import { ProductsComponent } from './tabs/products/products.component';
         InventoryComponent,
         OrdersComponent,
         OtherCostsComponent,
-    ]
+    ],
 })
 export default class HomeComponent implements OnInit {
     private readonly router = inject(Router);

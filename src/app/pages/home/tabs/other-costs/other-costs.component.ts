@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { OtherCostFormComponent } from '@app/pages/home/tabs/other-costs/other-cost-form/other-cost-form.component';
+import PopupComponent from '@shared/components/popup/popup.component';
 import TableComponent from '@shared/components/table/table.component';
+import { OtherCostService } from '@shared/services/other-cost.service';
+import { NewOtherCost, OtherCost, OtherCostForm } from '@shared/types/other-cost.types';
 import { ColumnsFromData } from '@shared/types/table.types';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
-import { Observable, switchMap, tap } from 'rxjs';
-import PopupComponent from '../../../../shared/components/popup/popup.component';
-import { OtherCostService } from '../../../../shared/services/other-cost.service';
-import { NewOtherCost, OtherCost, OtherCostForm } from '../../../../shared/types/other-cost.types';
-import { OtherCostFormComponent } from './other-cost-form/other-cost-form.component';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
+import { Observable, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-other-costs',

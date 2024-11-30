@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { InventoryFormComponent } from '@app/pages/home/tabs/inventory/inventory-form/inventory-form.component';
+import PopupComponent from '@shared/components/popup/popup.component';
+import TableComponent from '@shared/components/table/table.component';
+import { InventoryService } from '@shared/services/inventory.service';
 import { Inventory, InventoryForm, NewInventory } from '@shared/types/inventory.types';
 import { ColumnsFromData } from '@shared/types/table.types';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
-import { Observable, switchMap, tap } from 'rxjs';
-import PopupComponent from '../../../../shared/components/popup/popup.component';
-import TableComponent from '../../../../shared/components/table/table.component';
-import { InventoryService } from '../../../../shared/services/inventory.service';
-import { InventoryFormComponent } from './inventory-form/inventory-form.component';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
+import { Observable, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-inventory',

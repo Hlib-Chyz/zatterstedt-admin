@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { ClientFormComponent } from '@app/pages/home/tabs/clients/client-form/client-form.component';
+import PopupComponent from '@shared/components/popup/popup.component';
+import TableComponent from '@shared/components/table/table.component';
+import { ClientService } from '@shared/services/client.service';
+import { Client, ClientForm } from '@shared/types/client.types';
 import { ColumnsFromData } from '@shared/types/table.types';
 import { Observable, switchMap, tap } from 'rxjs';
-import PopupComponent from '../../../../shared/components/popup/popup.component';
-import TableComponent from '../../../../shared/components/table/table.component';
-import { ClientService } from '../../../../shared/services/client.service';
-import { Client, ClientForm } from '../../../../shared/types/client.types';
-import { ClientFormComponent } from './client-form/client-form.component';
 
 @Component({
     selector: 'app-clients',

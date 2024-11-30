@@ -1,9 +1,9 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { OrderProduct } from './order.types';
-import { DevelopmentCostProduct } from './development-cost.types';
-import { AdditionalCost } from './additional-cost.types';
-import { VariantNewProduct, VariantProduct } from './variant.types';
-import { ManufacturingCostProduct } from './manufacturing-cost.types';
+import { AdditionalCost } from '@shared/types/additional-cost.types';
+import { DevelopmentCostProduct } from '@shared/types/development-cost.types';
+import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
+import { OrderProduct } from '@shared/types/order.types';
+import { VariantNewProduct, VariantProduct } from '@shared/types/variant.types';
 
 export type Product = {
     _id: string;

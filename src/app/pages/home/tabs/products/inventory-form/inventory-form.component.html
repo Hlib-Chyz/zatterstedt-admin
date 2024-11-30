@@ -10,7 +10,7 @@
                         <label>Name:</label>
                         <select formControlName="inventoryId">
                             @for (
-                                materialOption of availableMaterials();
+                                materialOption of availableInventory();
                                 track materialOption._id
                             ) {
                                 <option [value]="materialOption._id">

@@ -1,4 +1,4 @@
-import { StockVariantProduct } from './stock.service';
+import { StockVariantProduct } from '@shared/types/stock.service';
 
 export type VariantProduct = {
     _id: string;

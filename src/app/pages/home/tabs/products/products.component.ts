@@ -9,28 +9,28 @@ import {
     NonNullableFormBuilder,
     Validators,
 } from '@angular/forms';
+import { AdditionalCostFormComponent } from '@app/pages/home/tabs/products/additional-cost-form/additional-cost-form.component';
+import { DevelopmentCostFormComponent } from '@app/pages/home/tabs/products/development-cost-form/development-cost-form.component';
+import { InventoryFormComponent } from '@app/pages/home/tabs/products/inventory-form/inventory-form.component';
+import { JobFormComponent } from '@app/pages/home/tabs/products/job-cost-form/job-cost-form.component';
+import { PriceFormComponent } from '@app/pages/home/tabs/products/price-form/price-form.component';
+import { ProductFormComponent } from '@app/pages/home/tabs/products/product-form/product-form.component';
+import PopupComponent from '@shared/components/popup/popup.component';
+import { AdditionalCostService } from '@shared/services/additional-cost.service';
+import { DevelopmentCostService } from '@shared/services/development-cost.service';
+import { InventoryService } from '@shared/services/inventory.service';
+import { ManufacturingCostService } from '@shared/services/manufacturing-cost.service';
+import { ProductService } from '@shared/services/product.service';
 import { AdditionalCost, AdditionalCostForm } from '@shared/types/additional-cost.types';
 import { DevelopmentCostForm } from '@shared/types/development-cost.types';
 import { InventoryFormArray, InventoryProductForm } from '@shared/types/inventory.types';
 import { JobForm } from '@shared/types/job.types';
 import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
 import { PriceForm } from '@shared/types/price.types';
+import { EditableProduct, Product, ProductForm } from '@shared/types/product.type';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
-import { Observable, switchMap, tap } from 'rxjs';
-import PopupComponent from '../../../../shared/components/popup/popup.component';
-import { AdditionalCostService } from '../../../../shared/services/additional-cost.service';
-import { DevelopmentCostService } from '../../../../shared/services/development-cost.service';
-import { InventoryService } from '../../../../shared/services/inventory.service';
-import { ManufacturingCostService } from '../../../../shared/services/manufacturing-cost.service';
-import { ProductService } from '../../../../shared/services/product.service';
-import { EditableProduct, Product, ProductForm } from '../../../../shared/types/product.type';
-import { AdditionalCostFormComponent } from './additional-cost-form/additional-cost-form.component';
-import { DevelopmentCostFormComponent } from './development-cost-form/development-cost-form.component';
-import { InventoryFormComponent } from './inventory-form/inventory-form.component';
-import { JobFormComponent } from './job-cost-form/job-cost-form.component';
-import { PriceFormComponent } from './price-form/price-form.component';
-import { ProductFormComponent } from './product-form/product-form.component';
+import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-products',
@@ -56,6 +56,7 @@ export class ProductsComponent implements OnInit {
     private readonly manufacturingCostService = inject(ManufacturingCostService);
     private readonly productService = inject(ProductService);
     private readonly inventoryService = inject(InventoryService);
+    private refresh$ = new BehaviorSubject<void>(void 0);
     public additionalCostPopupRef = viewChild<PopupComponent>('additionalCostPopup');
     public developmentCostPopupRef = viewChild<PopupComponent>('developmentCostPopup');
     public inventoryPopupRef = viewChild<PopupComponent>('inventoryPopup');
@@ -63,7 +64,9 @@ export class ProductsComponent implements OnInit {
     public productPopupRef = viewChild<PopupComponent>('productPopup');
     public jobPopupRef = viewChild<PopupComponent>('jobPopup');
     public products: Product[] = [];
-    public availableMaterials = toSignal(this.inventoryService.getAll());
+    public inventory = toSignal(
+        this.refresh$.pipe(switchMap(() => this.inventoryService.getAll()))
+    );
     public readonly additionalCostForm: AdditionalCostForm = this.fb.group({
         cost: [0, [Validators.required, Validators.min(0)]],
         _id: ['', Validators.required],
@@ -199,6 +202,7 @@ export class ProductsComponent implements OnInit {
     }
 
     public openInventoryPopup(manufacturingCost: ManufacturingCostProduct): void {
+        this.refresh$.next();
         this.inventoryForm.controls.inventory.clear();
         if (manufacturingCost.inventory.length) {
             manufacturingCost.inventory.forEach((inv) => {
@@ -210,9 +214,7 @@ export class ProductsComponent implements OnInit {
                     cost: [inv.cost, [Validators.required, Validators.min(0)]],
                 });
                 newInventory.controls.inventoryId.valueChanges.subscribe((inventoryId) => {
-                    const inventory = this.availableMaterials()?.find(
-                        (inv) => inv._id === inventoryId
-                    );
+                    const inventory = this.inventory()?.find((inv) => inv._id === inventoryId);
                     newInventory.controls.cost.setValue(
                         inventory ? inventory.totalCost / inventory.amount : 0,
                         { emitEvent: false }
@@ -229,7 +231,7 @@ export class ProductsComponent implements OnInit {
                 cost: [0, [Validators.required, Validators.min(0)]],
             });
             newInventory.controls.inventoryId.valueChanges.subscribe((inventoryId) => {
-                const inventory = this.availableMaterials()?.find((inv) => inv._id === inventoryId);
+                const inventory = this.inventory()?.find((inv) => inv._id === inventoryId);
                 newInventory.controls.cost.setValue(
                     inventory ? inventory.totalCost / inventory.amount : 0,
                     { emitEvent: false }

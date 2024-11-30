@@ -1,6 +1,6 @@
 import { Component, EventEmitter, input, Output, viewChild } from '@angular/core';
+import PopupComponent from '@shared/components/popup/popup.component';
 import { ColumnsFromData } from '@shared/types/table.types';
-import PopupComponent from '../popup/popup.component';
 
 @Component({
     selector: 'app-table',

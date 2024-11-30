@@ -73,7 +73,7 @@
     <app-development-cost-form [form]="developmentCostForm" />
 </app-popup>
 <app-popup (save)="setInventory()" #inventoryPopup>
-    <app-inventory-form [form]="inventoryForm" />
+    <app-inventory-form [availableInventory]="inventory() ?? []" [form]="inventoryForm" />
 </app-popup>
 <app-popup (save)="setPrice()" #pricePopup>
     <app-price-form [form]="priceForm" />
