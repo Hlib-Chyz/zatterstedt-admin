@@ -17,13 +17,11 @@
         </tr>
     </thead>
     <tbody>
-        @for (product of products; track product._id) {
+        @for (product of productService.products; track product._id) {
             <tr>
                 <td>{{ product.name }}</td>
                 <td>
-                    <button class="link" (click)="openPricePopup(product._id, product.price)">
-                        {{ product.price | currency }}
-                    </button>
+                    <app-price [product]="product" />
                 </td>
                 <td>{{ getCostPrice(product) | currency }}</td>
                 <td>
@@ -37,39 +35,16 @@
                     </ul>
                 </td>
                 <td>
-                    <button class="link" (click)="openInventoryPopup(product.manufacturingCost)">
-                        Inventory
-                    </button>
-                    <button class="link" (click)="openJobPopup(product.manufacturingCost)">
-                        Job
-                    </button>
+                    <app-inventory [manufacturingCost]="product.manufacturingCost" />
+                    <app-job [manufacturingCost]="product.manufacturingCost" />
                 </td>
                 <td>{{ getStock(product) }}</td>
                 <td>{{ getTotal(product) }}</td>
                 <td>
-                    <ul class="development-cost-list">
-                        @for (cost of product.developmentCosts; track cost._id) {
-                            <li>
-                                {{ cost.date }} - {{ cost.description }}: {{ cost.cost | currency }}
-                                <button
-                                    class="link"
-                                    (click)="openDevelopmentCostPopup(product._id, cost)">
-                                    <mat-icon>edit</mat-icon>
-                                </button>
-                                <button class="link" (click)="openConfirmationPopup(cost._id)">
-                                    <mat-icon class="delete">delete</mat-icon>
-                                </button>
-                            </li>
-                        }
-                    </ul>
-                    <button class="link" (click)="openDevelopmentCostPopup(product._id)">
-                        Add
-                    </button>
+                    <app-development-cost [product]="product" />
                 </td>
                 <td>
-                    <button class="link" (click)="openAdditionalCostPopup(product.additionalCost)">
-                        {{ product.additionalCost.cost | currency }}
-                    </button>
+                    <app-additional-cost [product]="product" />
                 </td>
                 <td>
                     <button
@@ -84,24 +59,6 @@
         }
     </tbody>
 </table>
-<app-popup (save)="setAdditionalCost()" #additionalCostPopup>
-    <app-additional-cost-form [form]="additionalCostForm" />
-</app-popup>
-<app-popup (save)="actionDevelopmentCost()" #developmentCostPopup>
-    <app-development-cost-form [form]="developmentCostForm" />
-</app-popup>
-<app-popup (save)="setInventory()" #inventoryPopup>
-    <app-inventory-form [availableInventory]="inventory() ?? []" [form]="inventoryForm" />
-</app-popup>
-<app-popup (save)="setPrice()" #pricePopup>
-    <app-price-form [form]="priceForm" />
-</app-popup>
 <app-popup (save)="addProduct()" #productPopup>
     <app-product-form [form]="productForm" />
-</app-popup>
-<app-popup (save)="changeJob()" #jobPopup>
-    <app-job-cost-form [form]="jobForm" />
-</app-popup>
-<app-popup (save)="removeDevelopmentCost()" #confirmationPopup>
-    Would you like delete development cost?
 </app-popup>

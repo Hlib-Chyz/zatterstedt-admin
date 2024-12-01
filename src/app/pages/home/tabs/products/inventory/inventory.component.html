@@ -1,0 +1,4 @@
+<button class="link" (click)="openInventoryPopup(manufacturingCost())">Inventory</button>
+<app-popup (save)="setInventory()" #inventoryPopup>
+    <app-inventory-form [availableInventory]="inventory() ?? []" [form]="inventoryForm" />
+</app-popup>

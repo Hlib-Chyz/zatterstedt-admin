@@ -1,41 +1,19 @@
 /* eslint-disable no-param-reassign */
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject, OnInit, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import {
-    FormArray,
-    FormControl,
-    FormGroup,
-    NonNullableFormBuilder,
-    Validators,
-} from '@angular/forms';
-import { AdditionalCostFormComponent } from '@app/pages/home/tabs/products/additional-cost-form/additional-cost-form.component';
-import { DevelopmentCostFormComponent } from '@app/pages/home/tabs/products/development-cost-form/development-cost-form.component';
-import { InventoryFormComponent } from '@app/pages/home/tabs/products/inventory-form/inventory-form.component';
-import { JobFormComponent } from '@app/pages/home/tabs/products/job-cost-form/job-cost-form.component';
-import { PriceFormComponent } from '@app/pages/home/tabs/products/price-form/price-form.component';
+import { Component, inject, viewChild } from '@angular/core';
+import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { AdditionalCostComponent } from '@app/pages/home/tabs/products/additional-cost/additional-cost.component';
+import { DevelopmentCostComponent } from '@app/pages/home/tabs/products/development-cost/development-cost.component';
+import { InventoryComponent } from '@app/pages/home/tabs/products/inventory/inventory.component';
+import { JobComponent } from '@app/pages/home/tabs/products/job/job.component';
+import { PriceComponent } from '@app/pages/home/tabs/products/price/price.component';
 import { ProductFormComponent } from '@app/pages/home/tabs/products/product-form/product-form.component';
 import PopupComponent from '@shared/components/popup/popup.component';
-import { AdditionalCostService } from '@shared/services/additional-cost.service';
-import { DevelopmentCostService } from '@shared/services/development-cost.service';
-import { InventoryService } from '@shared/services/inventory.service';
-import { ManufacturingCostService } from '@shared/services/manufacturing-cost.service';
+import { ProductHttpService } from '@shared/services/product-http.service';
 import { ProductService } from '@shared/services/product.service';
-import { AdditionalCost, AdditionalCostForm } from '@shared/types/additional-cost.types';
-import {
-    DevelopmentCostForm,
-    DevelopmentCostProduct,
-    NewDevelopmentCost,
-} from '@shared/types/development-cost.types';
-import { InventoryFormArray, InventoryProductForm } from '@shared/types/inventory.types';
-import { JobForm } from '@shared/types/job.types';
-import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
-import { PriceForm } from '@shared/types/price.types';
 import { EditableProduct, Product, ProductForm } from '@shared/types/product.type';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
-import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
-import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
-import { MatIconModule } from '@angular/material/icon';
+import { switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-products',
@@ -44,56 +22,19 @@ import { MatIconModule } from '@angular/material/icon';
     imports: [
         CurrencyPipe,
         PopupComponent,
-        AdditionalCostFormComponent,
-        DevelopmentCostFormComponent,
-        InventoryFormComponent,
-        PriceFormComponent,
+        AdditionalCostComponent,
+        DevelopmentCostComponent,
+        InventoryComponent,
+        PriceComponent,
         ProductFormComponent,
-        JobFormComponent,
-        MatIconModule,
+        JobComponent,
     ],
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
     private readonly fb = inject(NonNullableFormBuilder);
-    private readonly additionalCostService = inject(AdditionalCostService);
-    private readonly developmentCostService = inject(DevelopmentCostService);
-    private readonly manufacturingCostService = inject(ManufacturingCostService);
-    private readonly productService = inject(ProductService);
-    private readonly inventoryService = inject(InventoryService);
-    private refresh$ = new BehaviorSubject<void>(void 0);
-    private deletedDevelopmentCostId = '';
-    public additionalCostPopupRef = viewChild<PopupComponent>('additionalCostPopup');
-    public developmentCostPopupRef = viewChild<PopupComponent>('developmentCostPopup');
-    public confirmationPopupRef = viewChild<PopupComponent>('confirmationPopup');
-    public inventoryPopupRef = viewChild<PopupComponent>('inventoryPopup');
-    public pricePopupRef = viewChild<PopupComponent>('pricePopup');
+    private readonly productHttpService = inject(ProductHttpService);
+    public readonly productService = inject(ProductService);
     public productPopupRef = viewChild<PopupComponent>('productPopup');
-    public jobPopupRef = viewChild<PopupComponent>('jobPopup');
-    public products: Product[] = [];
-    public inventory = toSignal(
-        this.refresh$.pipe(switchMap(() => this.inventoryService.getAll()))
-    );
-    public readonly additionalCostForm: AdditionalCostForm = this.fb.group({
-        cost: [0, [Validators.required, Validators.min(0)]],
-        _id: ['', Validators.required],
-    });
-    public readonly jobForm: JobForm = this.fb.group({
-        job: this.fb.array([]) as unknown as FormArray<
-            FormGroup<{ name: FormControl<string>; cost: FormControl<number> }>
-        >,
-        _id: ['', Validators.required],
-    });
-    public readonly developmentCostForm: DevelopmentCostForm = this.fb.group({
-        _id: '',
-        date: [formatDateToYYYYMMDD(), Validators.required],
-        description: ['', Validators.required],
-        cost: [0, [Validators.required, Validators.min(0)]],
-        productId: ['', Validators.required],
-    });
-    public readonly inventoryForm: InventoryProductForm = this.fb.group({
-        _id: ['', Validators.required],
-        inventory: this.fb.array([]) as unknown as InventoryFormArray,
-    });
     public readonly productForm: ProductForm = this.fb.group({
         _id: '',
         name: ['', Validators.required],
@@ -108,14 +49,6 @@ export class ProductsComponent implements OnInit {
             }>[]
         ),
     });
-    public readonly priceForm: PriceForm = this.fb.group({
-        price: [0, [Validators.required, Validators.min(0)]],
-        productId: ['', Validators.required],
-    });
-
-    public ngOnInit(): void {
-        this.getProducts().subscribe();
-    }
 
     public getCostPrice(product: Product): number {
         const developmentCostsSum =
@@ -156,124 +89,6 @@ export class ProductsComponent implements OnInit {
         return product.variants.reduce((sum, variant) => sum + variant.stock.realizedParty, 0);
     }
 
-    public openAdditionalCostPopup(additionalCost: AdditionalCost): void {
-        this.additionalCostForm.setValue(additionalCost);
-        this.additionalCostPopupRef()?.openPopup();
-    }
-
-    public closeAdditionalCostPopup(): void {
-        this.additionalCostPopupRef()?.closePopup();
-    }
-
-    public openJobPopup(manufacturingCost: ManufacturingCostProduct): void {
-        this.jobForm.controls.job.clear();
-        if (manufacturingCost.job.length) {
-            manufacturingCost.job.forEach((job) => {
-                this.jobForm.controls.job.push(
-                    this.fb.group({
-                        name: [job.name, Validators.required],
-                        cost: [job.cost, [Validators.required, Validators.min(0)]],
-                    })
-                );
-            });
-        } else {
-            this.jobForm.controls.job.push(
-                this.fb.group({
-                    name: ['', Validators.required],
-                    cost: [0, [Validators.required, Validators.min(0)]],
-                })
-            );
-        }
-        this.jobForm.patchValue({
-            _id: manufacturingCost._id,
-        });
-        this.jobPopupRef()?.openPopup();
-    }
-
-    public closeJobPopup(): void {
-        this.jobPopupRef()?.closePopup();
-    }
-
-    public openDevelopmentCostPopup(
-        productId: string,
-        developmentCost?: DevelopmentCostProduct
-    ): void {
-        if (developmentCost) {
-            this.developmentCostForm.setValue({
-                ...developmentCost,
-                productId,
-            });
-        } else {
-            this.developmentCostForm.setValue({
-                _id: '',
-                date: formatDateToYYYYMMDD(),
-                description: '',
-                cost: 0,
-                productId,
-            });
-        }
-        this.developmentCostPopupRef()?.openPopup();
-    }
-
-    public closeDevelopmentCostPopup(): void {
-        this.developmentCostPopupRef()?.closePopup();
-    }
-
-    public openInventoryPopup(manufacturingCost: ManufacturingCostProduct): void {
-        this.refresh$.next();
-        this.inventoryForm.controls.inventory.clear();
-        if (manufacturingCost.inventory.length) {
-            manufacturingCost.inventory.forEach((inv) => {
-                const newInventory = this.fb.group({
-                    duringManufacture: inv.duringManufacture,
-                    inventoryId: [inv.inventoryId, Validators.required],
-                    quantityInUse: [inv.quantityInUse, [Validators.required, Validators.min(0)]],
-                    quantityInCost: [inv.quantityInCost, [Validators.required, Validators.min(0)]],
-                    cost: [inv.cost, [Validators.required, Validators.min(0)]],
-                });
-                newInventory.controls.inventoryId.valueChanges.subscribe((inventoryId) => {
-                    const inventory = this.inventory()?.find((inv) => inv._id === inventoryId);
-                    newInventory.controls.cost.setValue(
-                        inventory ? inventory.totalCost / inventory.amount : 0,
-                        { emitEvent: false }
-                    );
-                });
-                this.inventoryForm.controls.inventory.push(newInventory);
-            });
-        } else {
-            const newInventory = this.fb.group({
-                duringManufacture: false,
-                inventoryId: ['', Validators.required],
-                quantityInUse: [0, [Validators.required, Validators.min(0)]],
-                quantityInCost: [0, [Validators.required, Validators.min(0)]],
-                cost: [0, [Validators.required, Validators.min(0)]],
-            });
-            newInventory.controls.inventoryId.valueChanges.subscribe((inventoryId) => {
-                const inventory = this.inventory()?.find((inv) => inv._id === inventoryId);
-                newInventory.controls.cost.setValue(
-                    inventory ? inventory.totalCost / inventory.amount : 0,
-                    { emitEvent: false }
-                );
-            });
-            this.inventoryForm.controls.inventory.push(newInventory);
-        }
-        this.inventoryForm.controls._id.setValue(manufacturingCost._id);
-        this.inventoryPopupRef()?.openPopup();
-    }
-
-    public closeInventoryPopup(): void {
-        this.inventoryPopupRef()?.closePopup();
-    }
-
-    public openPricePopup(productId: string, price: number): void {
-        this.priceForm.setValue({ productId, price });
-        this.pricePopupRef()?.openPopup();
-    }
-
-    public closePricePopup(): void {
-        this.pricePopupRef()?.closePopup();
-    }
-
     public openProductPopup(product?: Product): void {
         this.productForm.controls.variants.clear();
         this.productForm.setValue({
@@ -301,113 +116,17 @@ export class ProductsComponent implements OnInit {
         this.productPopupRef()?.openPopup();
     }
 
-    public closeProductPopup(): void {
-        this.productPopupRef()?.closePopup();
-    }
-
-    public setAdditionalCost(): void {
-        if (this.additionalCostForm.valid) {
-            this.additionalCostService
-                .update(this.additionalCostForm.getRawValue())
-                .pipe(switchMap(() => this.getProducts()))
-                .subscribe(() => {
-                    this.additionalCostPopupRef()?.closePopup();
-                });
-        } else {
-            this.additionalCostForm.markAllAsTouched();
-        }
-    }
-
-    public actionDevelopmentCost(): void {
-        if (this.developmentCostForm.invalid) {
-            this.developmentCostForm.markAllAsTouched();
-            return;
-        }
-        const formData = this.developmentCostForm.getRawValue();
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { productId, ...rest } = formData;
-        const saveOperation = formData._id
-            ? this.developmentCostService.update(rest)
-            : this.developmentCostService.add(
-                  extractFormDataWithoutId<NewDevelopmentCost>(formData)
-              );
-        saveOperation.pipe(switchMap(() => this.getProducts())).subscribe(() => {
-            this.developmentCostPopupRef()?.closePopup();
-        });
-    }
-
-    public removeDevelopmentCost(): void {
-        this.developmentCostService
-            .delete(this.deletedDevelopmentCostId)
-            .pipe(switchMap(() => this.getProducts()))
-            .subscribe(() => {
-                this.confirmationPopupRef()?.closePopup();
-            });
-    }
-
-    public openConfirmationPopup(id: string): void {
-        this.deletedDevelopmentCostId = id;
-        this.confirmationPopupRef()?.openPopup();
-    }
-
-    public setInventory(): void {
-        if (this.inventoryForm.valid) {
-            this.manufacturingCostService
-                .setInventory(this.inventoryForm.getRawValue())
-                .pipe(switchMap(() => this.getProducts()))
-                .subscribe(() => {
-                    this.inventoryPopupRef()?.closePopup();
-                });
-        } else {
-            this.inventoryForm.markAllAsTouched();
-        }
-    }
-
-    public setPrice(): void {
-        if (this.priceForm.valid) {
-            this.productService
-                .setPrice(this.priceForm.getRawValue())
-                .pipe(switchMap(() => this.getProducts()))
-                .subscribe(() => {
-                    this.pricePopupRef()?.closePopup();
-                });
-        } else {
-            this.priceForm.markAllAsTouched();
-        }
-    }
-
     public addProduct(): void {
         if (this.productForm.valid) {
             const formData = this.productForm.getRawValue();
             const saveOperation = formData._id
-                ? this.productService.update(formData)
-                : this.productService.add(extractFormDataWithoutId<EditableProduct>(formData));
-            saveOperation.pipe(switchMap(() => this.getProducts())).subscribe(() => {
+                ? this.productHttpService.update(formData)
+                : this.productHttpService.add(extractFormDataWithoutId<EditableProduct>(formData));
+            saveOperation.pipe(switchMap(() => this.productService.getProducts())).subscribe(() => {
                 this.productPopupRef()?.closePopup();
             });
         } else {
             this.productForm.markAllAsTouched();
         }
-    }
-
-    public changeJob(): void {
-        if (this.jobForm.valid) {
-            this.manufacturingCostService
-                .setJob(this.jobForm.getRawValue())
-                .pipe(switchMap(() => this.getProducts()))
-                .subscribe(() => {
-                    this.jobPopupRef()?.closePopup();
-                });
-        } else {
-            this.jobForm.markAllAsTouched();
-        }
-    }
-
-    public getProducts(): Observable<Product[]> {
-        return this.productService.getAll().pipe(
-            tap((products) => {
-                this.products = products;
-            })
-        );
     }
 }

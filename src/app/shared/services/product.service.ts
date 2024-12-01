@@ -1,35 +1,22 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { EditableProduct, NewProduct, Product } from '@shared/types/product.type';
-import { DefaultResponse } from '@shared/types/response.type';
-import { Observable } from 'rxjs';
+import { ProductHttpService } from '@shared/services/product-http.service';
+import { Product } from '@shared/types/product.type';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-    private readonly http = inject(HttpClient);
-    private readonly controller = 'products';
+    private readonly productHttpService = inject(ProductHttpService);
+    public products: Product[] = [];
 
-    public getAll(): Observable<Product[]> {
-        return this.http.get<Product[]>(`${this.controller}/admin`);
+    public constructor() {
+        this.getProducts().subscribe();
     }
 
-    public add(product: NewProduct): Observable<DefaultResponse> {
-        return this.http.post<DefaultResponse>(this.controller, product);
-    }
-
-    public update(product: EditableProduct): Observable<DefaultResponse> {
-        return this.http.put<DefaultResponse>(this.controller, product);
-    }
-
-    public setPrice({
-        productId,
-        price,
-    }: {
-        productId: string;
-        price: number;
-    }): Observable<DefaultResponse> {
-        return this.http.put<DefaultResponse>(`${this.controller}/price/${productId}`, {
-            price,
-        });
+    public getProducts(): Observable<Product[]> {
+        return this.productHttpService.getAll().pipe(
+            tap((products) => {
+                this.products = products;
+            })
+        );
     }
 }

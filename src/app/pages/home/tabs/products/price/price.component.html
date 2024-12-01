@@ -1,0 +1,6 @@
+<button class="link" (click)="openPricePopup(product()._id, product().price)">
+    {{ product().price | currency }}
+</button>
+<app-popup (save)="setPrice()" #pricePopup>
+    <app-price-form [form]="priceForm" />
+</app-popup>

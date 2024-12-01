@@ -1,0 +1,4 @@
+<button class="link" (click)="openJobPopup(manufacturingCost())">Job</button>
+<app-popup (save)="changeJob()" #jobPopup>
+    <app-job-cost-form [form]="jobForm" />
+</app-popup>

@@ -1,0 +1,20 @@
+<ul class="development-cost-list">
+    @for (cost of product().developmentCosts; track cost._id) {
+        <li>
+            {{ cost.date }} - {{ cost.description }}: {{ cost.cost | currency }}
+            <button class="link" (click)="openDevelopmentCostPopup(product()._id, cost)">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button class="link" (click)="openConfirmationPopup(cost._id)">
+                <mat-icon class="delete">delete</mat-icon>
+            </button>
+        </li>
+    }
+</ul>
+<button class="link" (click)="openDevelopmentCostPopup(product()._id)">Add</button>
+<app-popup (save)="actionDevelopmentCost()" #developmentCostPopup>
+    <app-development-cost-form [form]="developmentCostForm" />
+</app-popup>
+<app-popup (save)="removeDevelopmentCost()" #confirmationPopup>
+    Would you like delete development cost?
+</app-popup>

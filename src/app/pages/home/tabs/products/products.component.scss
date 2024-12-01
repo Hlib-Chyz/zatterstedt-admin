@@ -37,39 +37,10 @@
                 &:last-child {
                     border-right: none;
                 }
-                ul.development-cost-list {
-                    overflow: auto;
-                    max-height: 200px;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 4px;
-                    li {
-                        display: flex;
-                        align-items: center;
-                        button {
-                            text-decoration: none;
-                            display: flex;
-                            align-items: center;
-                            padding: 1px 2px;
-                            mat-icon {
-                                font-size: 16px;
-                                &.delete {
-                                    color: red;
-                                }
-                            }
-                        }
-                    }
-                }
             }
 
             &:hover {
                 background-color: #f9f9f9;
-            }
-
-            ul {
-                margin: 0;
-                padding-left: 15px;
-                list-style-type: none;
             }
         }
     }
