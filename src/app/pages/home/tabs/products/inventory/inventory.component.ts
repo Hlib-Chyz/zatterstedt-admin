@@ -77,7 +77,10 @@ export class InventoryComponent {
     public setInventory(): void {
         if (this.inventoryForm.valid) {
             this.manufacturingCostService
-                .setInventory(this.inventoryForm.getRawValue())
+                .setInventory({
+                    ...this.inventoryForm.getRawValue(),
+                    oldInventory: this.manufacturingCost().inventory,
+                })
                 .pipe(switchMap(() => this.productService.getProducts()))
                 .subscribe(() => {
                     this.inventoryPopupRef()?.closePopup();

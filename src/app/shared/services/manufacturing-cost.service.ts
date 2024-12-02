@@ -13,11 +13,16 @@ export class ManufacturingCostService {
     public setInventory({
         _id,
         inventory,
+        oldInventory,
     }: {
         _id: string;
         inventory: InventoryManufacturingCostProduct[];
+        oldInventory: InventoryManufacturingCostProduct[];
     }): Observable<DefaultResponse> {
-        return this.http.put<DefaultResponse>(`${this.controller}/inventory/${_id}`, { inventory });
+        return this.http.put<DefaultResponse>(`${this.controller}/inventory/${_id}`, {
+            inventory,
+            oldInventory,
+        });
     }
 
     public setJob({
