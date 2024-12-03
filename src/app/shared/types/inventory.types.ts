@@ -45,3 +45,7 @@ export type InventoryProductForm = FormGroup<{
     _id: FormControl<string>;
     inventory: InventoryFormArray;
 }>;
+
+export type CanSaveInventoryResponse = {
+    canSaveInventory: boolean;
+};

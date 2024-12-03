@@ -3,7 +3,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { InventoryFormComponent } from '@app/pages/home/tabs/inventory/inventory-form/inventory-form.component';
 import PopupComponent from '@shared/components/popup/popup.component';
 import TableComponent from '@shared/components/table/table.component';
-import { InventoryService } from '@shared/services/inventory.service';
+import { InventoryHttpService } from '@shared/services/inventory-http.service';
 import { Inventory, InventoryForm, NewInventory } from '@shared/types/inventory.types';
 import { ColumnsFromData } from '@shared/types/table.types';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
@@ -16,7 +16,7 @@ import { Observable, switchMap, tap } from 'rxjs';
     templateUrl: './inventory.component.html',
 })
 export class InventoryComponent implements OnInit {
-    private readonly inventoryService = inject(InventoryService);
+    private readonly inventoryHttpService = inject(InventoryHttpService);
     private readonly fb = inject(NonNullableFormBuilder);
     public readonly columns: ColumnsFromData<Inventory> = [
         {
@@ -66,8 +66,8 @@ export class InventoryComponent implements OnInit {
         }
         const formData = this.form.getRawValue();
         const saveOperation = formData._id
-            ? this.inventoryService.update(formData)
-            : this.inventoryService.add(extractFormDataWithoutId<NewInventory>(formData));
+            ? this.inventoryHttpService.update(formData)
+            : this.inventoryHttpService.add(extractFormDataWithoutId<NewInventory>(formData));
         saveOperation.pipe(switchMap(() => this.getData())).subscribe(() => {
             this.popupRef()?.closePopup();
         });
@@ -91,14 +91,14 @@ export class InventoryComponent implements OnInit {
     }
 
     public remove(id: string): void {
-        this.inventoryService
+        this.inventoryHttpService
             .delete(id)
             .pipe(switchMap(() => this.getData()))
             .subscribe();
     }
 
     private getData(): Observable<Inventory[]> {
-        return this.inventoryService.getAll().pipe(
+        return this.inventoryHttpService.getAll().pipe(
             tap((inventory) => {
                 this.data.set(inventory);
             })

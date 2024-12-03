@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
     selector: 'app-popup',
@@ -7,6 +7,7 @@ import { Component, output } from '@angular/core';
 })
 export default class PopupComponent {
     public save = output();
+    public canSave = input(true);
     public isVisible = false;
 
     public openPopup(): void {

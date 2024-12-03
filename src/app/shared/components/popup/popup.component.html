@@ -8,7 +8,9 @@
             <ng-content></ng-content>
         </div>
         <div class="popup-footer">
-            <button class="btn save-btn" (click)="savePopup()">Save</button>
+            @if (canSave()) {
+                <button class="btn save-btn" (click)="savePopup()">Save</button>
+            }
             <button class="btn close-btn" (click)="closePopup()">Close</button>
         </div>
     </div>
