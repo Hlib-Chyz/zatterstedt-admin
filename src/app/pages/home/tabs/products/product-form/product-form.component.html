@@ -5,7 +5,13 @@
     @if (form().getRawValue()._id) {
         <ng-container formArrayName="variants">
             <ul>
-                @for (variant of form().controls.variants.controls; track $index) {
+                @for (
+                    variant of form().controls.variants.controls;
+                    track variant.getRawValue().size +
+                        variant.getRawValue().color +
+                        variant.getRawValue().quantity +
+                        variant.getRawValue().realizedParty
+                ) {
                     <li [formGroupName]="$index">
                         <app-text-control label="Size" controlName="size" />
                         <app-text-control label="Color" controlName="color" />

@@ -3,7 +3,7 @@
         <ul>
             @for (
                 job of form().controls.job.controls;
-                track form().getRawValue()._id + job.value.name + job.value.cost
+                track form().getRawValue()._id + job.getRawValue().name + job.getRawValue().cost
             ) {
                 <li [formGroupName]="$index">
                     <app-text-control label="Name" controlName="name" />
