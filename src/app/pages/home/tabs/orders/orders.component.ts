@@ -31,8 +31,9 @@ export class OrdersComponent implements OnInit {
     ];
     public form: OrderForm = this.fb.group({
         date: [formatDateToYYYYMMDD(), Validators.required],
-        contacts: ['', Validators.required],
-        userName: ['', Validators.required],
+        contacts: '',
+        userName: '',
+        userId: '',
         variants: this.fb.array([]) as unknown as FormArray<
             FormGroup<{
                 _id: FormControl<string>;
@@ -66,6 +67,7 @@ export class OrdersComponent implements OnInit {
             date: formatDateToYYYYMMDD(),
             contacts: '',
             userName: '',
+            userId: '',
             variants: [],
         });
         this.popupRef()?.openPopup();

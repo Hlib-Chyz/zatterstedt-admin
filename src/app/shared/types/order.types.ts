@@ -26,6 +26,7 @@ export type OrderForm = FormGroup<{
     contacts: FormControl<string>;
     date: FormControl<string>;
     userName: FormControl<string>;
+    userId: FormControl<string>;
     variants: FormArray<
         FormGroup<{
             _id: FormControl<string>;

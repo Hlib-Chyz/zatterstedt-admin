@@ -2,6 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextControlComponent } from '@shared/components/text-control/text-control.component';
+import { ClientService } from '@shared/services/client.service';
 import { VariantService } from '@shared/services/variant.service';
 import { OrderForm } from '@shared/types/order.types';
 
@@ -14,8 +15,10 @@ import { OrderForm } from '@shared/types/order.types';
 export class OrderFormComponent {
     private readonly fb = inject(NonNullableFormBuilder);
     private readonly variantService = inject(VariantService);
+    private readonly clientService = inject(ClientService);
     public readonly form = input.required<OrderForm>();
     public variants = toSignal(this.variantService.getAll());
+    public users = toSignal(this.clientService.getAll());
 
     public addVariant(): void {
         this.form().controls.variants.push(
