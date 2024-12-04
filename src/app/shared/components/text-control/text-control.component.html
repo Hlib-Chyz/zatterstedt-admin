@@ -5,7 +5,6 @@
         [type]="type()"
         [formControlName]="controlName()"
         [placeholder]="'Enter ' + label()" />
-    @let control = parentFormGroup.controls[controlName()];
     @if (control) {
         <app-error-messages
             [touched]="control.invalid && control.touched"
