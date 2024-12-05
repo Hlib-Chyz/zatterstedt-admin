@@ -24,7 +24,20 @@
         @for (item of data(); track item._id) {
             <tr>
                 @for (column of columns(); track column) {
-                    <td>{{ item[column.field] }}</td>
+                    <td>
+                        @let value = item[column.field];
+                        @if (value | isArray) {
+                            <ol>
+                                @for (item of $any(value); track item) {
+                                    <li>
+                                        {{ item }}
+                                    </li>
+                                }
+                            </ol>
+                        } @else {
+                            {{ value }}
+                        }
+                    </td>
                 }
                 @if (isShowNumber()) {
                     <td>
