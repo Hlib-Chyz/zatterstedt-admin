@@ -1,16 +1,16 @@
 <form [formGroup]="form()">
     <div class="form-group select">
-        <label>User:</label>
-        <select formControlName="userId">
-            @for (user of users(); track user._id) {
-                <option [value]="user._id">
-                    {{ user.name }}
+        <label>Client:</label>
+        <select formControlName="clientId">
+            @for (client of clients(); track client._id) {
+                <option [value]="client._id">
+                    {{ client.name }}
                 </option>
             }
         </select>
     </div>
     <app-text-control label="Contacts" controlName="contacts" />
-    <app-text-control label="User name" controlName="userName" />
+    <app-text-control label="Client name" controlName="clientName" />
     <app-text-control label="Date" controlName="date" type="date" />
     <ng-container formArrayName="variants">
         <ul>

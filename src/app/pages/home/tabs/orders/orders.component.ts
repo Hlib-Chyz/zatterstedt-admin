@@ -26,14 +26,14 @@ export class OrdersComponent implements OnInit {
     public data = signal<Order[]>([]);
     public columns: ColumnsFromData<Order> = [
         { field: 'date', name: 'Date' },
-        { field: 'contacts', name: 'Contacts' },
+        { field: 'client', name: 'Client' },
         { field: 'variants', name: 'Variants' },
     ];
     public form: OrderForm = this.fb.group({
         date: [formatDateToYYYYMMDD(), Validators.required],
         contacts: '',
-        userName: '',
-        userId: '',
+        clientName: '',
+        clientId: '',
         variants: this.fb.array([]) as unknown as FormArray<
             FormGroup<{
                 _id: FormControl<string>;
@@ -66,8 +66,8 @@ export class OrdersComponent implements OnInit {
         this.form.setValue({
             date: formatDateToYYYYMMDD(),
             contacts: '',
-            userName: '',
-            userId: '',
+            clientName: '',
+            clientId: '',
             variants: [],
         });
         this.popupRef()?.openPopup();

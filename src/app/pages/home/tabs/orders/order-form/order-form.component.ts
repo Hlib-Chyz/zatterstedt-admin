@@ -18,7 +18,7 @@ export class OrderFormComponent {
     private readonly clientService = inject(ClientService);
     public readonly form = input.required<OrderForm>();
     public variants = toSignal(this.variantService.getAll());
-    public users = toSignal(this.clientService.getAll());
+    public clients = toSignal(this.clientService.getAll());
 
     public addVariant(): void {
         this.form().controls.variants.push(

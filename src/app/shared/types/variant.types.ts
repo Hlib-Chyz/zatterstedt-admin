@@ -14,12 +14,6 @@ export type VariantNewProduct = {
     realizedParty: number;
 };
 
-export type VariantOrderProduct = {
-    name: string;
-    quantity: number;
-    cost: number;
-};
-
 export type Variant = {
     _id: string;
     name: string;
