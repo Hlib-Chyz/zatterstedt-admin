@@ -28,6 +28,7 @@ export class OrdersComponent implements OnInit {
         { field: 'date', name: 'Date' },
         { field: 'client', name: 'Client' },
         { field: 'variants', name: 'Variants' },
+        { field: 'orderNumber', name: 'Order Number' },
     ];
     public form: OrderForm = this.fb.group({
         date: [formatDateToYYYYMMDD(), Validators.required],

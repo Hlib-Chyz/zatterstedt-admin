@@ -8,10 +8,6 @@ export class ProductService {
     private readonly productHttpService = inject(ProductHttpService);
     public products: Product[] = [];
 
-    public constructor() {
-        this.getProducts().subscribe();
-    }
-
     public getProducts(): Observable<Product[]> {
         return this.productHttpService.getAll().pipe(
             tap((products) => {

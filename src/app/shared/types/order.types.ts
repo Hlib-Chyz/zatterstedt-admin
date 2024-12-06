@@ -6,6 +6,7 @@ export type Order = {
     date: string;
     client: string;
     variants: string[];
+    orderNumber: string;
 };
 
 export type NewOrder = {

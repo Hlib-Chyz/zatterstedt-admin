@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject, viewChild } from '@angular/core';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AdditionalCostComponent } from '@app/pages/home/tabs/products/additional-cost/additional-cost.component';
 import { DevelopmentCostComponent } from '@app/pages/home/tabs/products/development-cost/development-cost.component';
@@ -30,7 +30,7 @@ import { switchMap } from 'rxjs';
         JobComponent,
     ],
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit {
     private readonly fb = inject(NonNullableFormBuilder);
     private readonly productHttpService = inject(ProductHttpService);
     public readonly productService = inject(ProductService);
@@ -49,6 +49,10 @@ export class ProductsComponent {
             }>[]
         ),
     });
+
+    public ngOnInit(): void {
+        this.productService.getProducts().subscribe();
+    }
 
     public getCostPrice(product: Product): number {
         const developmentCostsSum =

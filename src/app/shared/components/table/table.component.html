@@ -9,9 +9,6 @@
             @for (column of columns(); track column) {
                 <th>{{ column.name }}</th>
             }
-            @if (isShowNumber()) {
-                <th>Number</th>
-            }
             @if (update.observed) {
                 <th>Edit</th>
             }
@@ -37,11 +34,6 @@
                         } @else {
                             {{ value }}
                         }
-                    </td>
-                }
-                @if (isShowNumber()) {
-                    <td>
-                        {{ '0000' + ($index + 1) }}
                     </td>
                 }
                 @if (update.observed) {
