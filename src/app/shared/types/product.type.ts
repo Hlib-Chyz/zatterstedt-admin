@@ -1,8 +1,8 @@
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { AdditionalCost } from '@shared/types/additional-cost.types';
 import { DevelopmentCostProduct } from '@shared/types/development-cost.types';
 import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
-import { VariantNewProduct, VariantProduct } from '@shared/types/variant.types';
+import { VariantProduct } from '@shared/types/variant.types';
 
 export type Product = {
     _id: string;
@@ -20,7 +20,6 @@ export type EditableProduct = {
     price: number;
     description: string;
     name: string;
-    variants: VariantNewProduct[];
 };
 
 export type NewProduct = Omit<EditableProduct, '_id'>;
@@ -30,12 +29,4 @@ export type ProductForm = FormGroup<{
     name: FormControl<string>;
     description: FormControl<string>;
     price: FormControl<number>;
-    variants: FormArray<
-        FormGroup<{
-            size: FormControl<string>;
-            color: FormControl<string>;
-            quantity: FormControl<number>;
-            realizedParty: FormControl<number>;
-        }>
-    >;
 }>;

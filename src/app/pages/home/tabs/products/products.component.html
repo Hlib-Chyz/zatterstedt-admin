@@ -25,14 +25,7 @@
                 </td>
                 <td>{{ getCostPrice(product) | currency }}</td>
                 <td>
-                    <ul>
-                        @for (variant of product.variants; track variant._id) {
-                            <li>
-                                {{ variant.size }} / {{ variant.color }} - In stock:
-                                {{ variant.stock.total - variant.stock.sold }}
-                            </li>
-                        }
-                    </ul>
+                    <app-variant [variants]="product.variants" [productId]="product._id" />
                 </td>
                 <td>
                     <app-inventory

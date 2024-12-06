@@ -1,13 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { CurrencyPipe } from '@angular/common';
 import { Component, inject, OnInit, viewChild } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AdditionalCostComponent } from '@app/pages/home/tabs/products/additional-cost/additional-cost.component';
 import { DevelopmentCostComponent } from '@app/pages/home/tabs/products/development-cost/development-cost.component';
 import { InventoryComponent } from '@app/pages/home/tabs/products/inventory/inventory.component';
 import { JobComponent } from '@app/pages/home/tabs/products/job/job.component';
 import { PriceComponent } from '@app/pages/home/tabs/products/price/price.component';
 import { ProductFormComponent } from '@app/pages/home/tabs/products/product-form/product-form.component';
+import { VariantComponent } from '@app/pages/home/tabs/products/variant/varinat.component';
 import PopupComponent from '@shared/components/popup/popup.component';
 import { ProductHttpService } from '@shared/services/product-http.service';
 import { ProductService } from '@shared/services/product.service';
@@ -28,6 +29,7 @@ import { switchMap } from 'rxjs';
         PriceComponent,
         ProductFormComponent,
         JobComponent,
+        VariantComponent,
     ],
 })
 export class ProductsComponent implements OnInit {
@@ -40,14 +42,6 @@ export class ProductsComponent implements OnInit {
         name: ['', Validators.required],
         description: ['', Validators.required],
         price: [0, [Validators.required, Validators.min(0)]],
-        variants: this.fb.array(
-            [] as FormGroup<{
-                size: FormControl<string>;
-                color: FormControl<string>;
-                quantity: FormControl<number>;
-                realizedParty: FormControl<number>;
-            }>[]
-        ),
     });
 
     public ngOnInit(): void {
@@ -94,29 +88,12 @@ export class ProductsComponent implements OnInit {
     }
 
     public openProductPopup(product?: Product): void {
-        this.productForm.controls.variants.clear();
         this.productForm.setValue({
             _id: product?._id ?? '',
             name: product?.name ?? '',
             price: product?.price ?? 0,
             description: product?.description ?? '',
-            variants: [],
         });
-        if (product) {
-            product.variants.forEach((variant) => {
-                this.productForm.controls.variants.push(
-                    this.fb.group({
-                        size: [variant.size, Validators.required],
-                        color: [variant.color, Validators.required],
-                        quantity: [variant.stock.total, [Validators.required, Validators.min(0)]],
-                        realizedParty: [
-                            variant.stock.realizedParty,
-                            [Validators.required, Validators.min(0)],
-                        ],
-                    })
-                );
-            });
-        }
         this.productPopupRef()?.openPopup();
     }
 

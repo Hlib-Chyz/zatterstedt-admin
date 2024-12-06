@@ -2,29 +2,4 @@
     <app-text-control label="Name" controlName="name" />
     <app-text-control label="Description" controlName="description" />
     <app-text-control label="Price" controlName="price" type="number" />
-    @if (form().getRawValue()._id) {
-        <ng-container formArrayName="variants">
-            <ul>
-                @for (
-                    variant of form().controls.variants.controls;
-                    track variant.getRawValue().size +
-                        variant.getRawValue().color +
-                        variant.getRawValue().quantity +
-                        variant.getRawValue().realizedParty
-                ) {
-                    <li [formGroupName]="$index">
-                        <app-text-control label="Size" controlName="size" />
-                        <app-text-control label="Color" controlName="color" />
-                        <app-text-control label="Quantity" controlName="quantity" type="number" />
-                        <app-text-control
-                            label="Realized Party"
-                            controlName="realizedParty"
-                            type="number" />
-                        <button class="link" (click)="removeVariant($index)">Remove</button>
-                    </li>
-                }
-            </ul>
-            <button class="link" (click)="addVariant()">Add Variant</button>
-        </ng-container>
-    }
 </form>

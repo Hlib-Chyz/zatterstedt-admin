@@ -1,0 +1,12 @@
+<ul>
+    @for (variant of variants(); track variant._id) {
+        <li>
+            {{ variant.size }} / {{ variant.color }} - In stock:
+            {{ variant.stock.total - variant.stock.sold }}
+        </li>
+    }
+</ul>
+<button class="link" (click)="openVariantPopup()">Set variants</button>
+<app-popup [canSave]="canSaveVariants" (save)="setVariants()" #variantPopup>
+    <app-variant-form [form]="variantForm" />
+</app-popup>

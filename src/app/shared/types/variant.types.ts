@@ -1,3 +1,4 @@
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { StockVariantProduct } from '@shared/types/stock.service';
 
 export type VariantProduct = {
@@ -23,4 +24,29 @@ export type VariantOrder = {
     _id: string;
     quantity: number;
     price: number;
+};
+
+export type NewVariant = {
+    size: string;
+    color: string;
+    quantity: number;
+    realizedParty: number;
+};
+
+export type VariantsControl = FormArray<
+    FormGroup<{
+        size: FormControl<string>;
+        color: FormControl<string>;
+        quantity: FormControl<number>;
+        realizedParty: FormControl<number>;
+    }>
+>;
+
+export type VariantForm = FormGroup<{
+    productId: FormControl<string>;
+    variants: VariantsControl;
+}>;
+
+export type CanSaveVariantsResponse = {
+    canSaveVariants: boolean;
 };
