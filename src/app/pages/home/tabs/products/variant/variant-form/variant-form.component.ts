@@ -12,6 +12,7 @@ import { VariantForm } from '@shared/types/variant.types';
 export class VariantFormComponent {
     private readonly fb = inject(NonNullableFormBuilder);
     public readonly form = input.required<VariantForm>();
+    public canSave = input(true);
 
     public addVariant(): void {
         this.form().controls.variants.push(

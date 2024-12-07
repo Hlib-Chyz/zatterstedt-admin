@@ -14,6 +14,7 @@ export class InventoryFormComponent {
     private readonly fb = inject(NonNullableFormBuilder);
     public readonly form = input.required<InventoryProductForm>();
     public availableInventory = input.required<Inventory[]>();
+    public canSave = input(true);
 
     public addInventory(): void {
         const newInventory = this.fb.group({

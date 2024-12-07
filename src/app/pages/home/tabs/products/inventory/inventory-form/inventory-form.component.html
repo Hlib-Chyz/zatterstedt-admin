@@ -51,10 +51,14 @@
                                 [errors]="control.errors" />
                         }
                     </div>
-                    <button class="link" (click)="removeInventory($index)">Remove</button>
+                    @if (canSave()) {
+                        <button class="link" (click)="removeInventory($index)">Remove</button>
+                    }
                 </li>
             }
         </ul>
-        <button class="link" (click)="addInventory()">Add</button>
+        @if (canSave()) {
+            <button class="link" (click)="addInventory()">Add</button>
+        }
     </ng-container>
 </form>

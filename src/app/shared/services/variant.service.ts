@@ -12,7 +12,11 @@ export class VariantService {
         return this.http.get<Variant[]>(this.controller);
     }
 
-    public setVariants(body: { productId: string; variants: NewVariant[] }): Observable<Variant[]> {
+    public setVariants(body: {
+        productId: string;
+        variants: NewVariant[];
+        oldVariantIds: string[];
+    }): Observable<Variant[]> {
         return this.http.post<Variant[]>(this.controller, body);
     }
 

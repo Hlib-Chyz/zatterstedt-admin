@@ -70,7 +70,10 @@ export class VariantComponent {
     public setVariants(): void {
         if (this.variantForm.valid) {
             this.variantService
-                .setVariants(this.variantForm.getRawValue())
+                .setVariants({
+                    ...this.variantForm.getRawValue(),
+                    oldVariantIds: this.variants().map(({ _id }) => _id),
+                })
                 .pipe(switchMap(() => this.productService.getProducts()))
                 .subscribe(() => {
                     this.variantPopupRef()?.closePopup();
