@@ -3,58 +3,60 @@
         <button type="button" (click)="add.emit()" class="btn mew-btn">New</button>
     </div>
 }
-<table class="table">
-    <thead>
-        <tr>
-            @for (column of columns(); track column) {
-                <th>{{ column.name }}</th>
-            }
-            @if (update.observed) {
-                <th>Edit</th>
-            }
-            @if (remove.observed) {
-                <th>Delete</th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @for (item of data(); track item._id) {
+<div class="table-container">
+    <table class="table">
+        <thead>
             <tr>
                 @for (column of columns(); track column) {
-                    <td>
-                        @let value = item[column.field];
-                        @if (value | isArray) {
-                            <ol>
-                                @for (item of $any(value); track item) {
-                                    <li>
-                                        {{ item }}
-                                    </li>
-                                }
-                            </ol>
-                        } @else {
-                            {{ value }}
-                        }
-                    </td>
+                    <th>{{ column.name }}</th>
                 }
                 @if (update.observed) {
-                    <td>
-                        <button type="button" (click)="update.emit(item)" class="btn">
-                            Update
-                        </button>
-                    </td>
+                    <th>Edit</th>
                 }
                 @if (remove.observed) {
-                    <td>
-                        <button
-                            type="button"
-                            (click)="openConfirmationPopup(item._id)"
-                            class="btn delete-btn">
-                            Delete
-                        </button>
-                    </td>
+                    <th>Delete</th>
                 }
             </tr>
-        }
-    </tbody>
-</table>
-<app-popup (save)="removeItem()" #popup> Would you like delete this item? </app-popup>
+        </thead>
+        <tbody>
+            @for (item of data(); track item._id) {
+                <tr>
+                    @for (column of columns(); track column) {
+                        <td>
+                            @let value = item[column.field];
+                            @if (value | isArray) {
+                                <ol>
+                                    @for (item of $any(value); track item) {
+                                        <li>
+                                            {{ item }}
+                                        </li>
+                                    }
+                                </ol>
+                            } @else {
+                                {{ value }}
+                            }
+                        </td>
+                    }
+                    @if (update.observed) {
+                        <td>
+                            <button type="button" (click)="update.emit(item)" class="btn">
+                                Update
+                            </button>
+                        </td>
+                    }
+                    @if (remove.observed) {
+                        <td>
+                            <button
+                                type="button"
+                                (click)="openConfirmationPopup(item._id)"
+                                class="btn delete-btn">
+                                Delete
+                            </button>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <app-popup (save)="removeItem()" #popup> Would you like delete this item? </app-popup>
+</div>

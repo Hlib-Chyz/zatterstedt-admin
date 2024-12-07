@@ -23,6 +23,9 @@
     }
     .popup-body {
         padding: 10px 0;
+        max-height: calc(100vh - 103px);
+        max-width: calc(100vw - 40px);
+        overflow: auto;
     }
     .popup-footer {
         display: flex;

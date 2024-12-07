@@ -1,59 +1,61 @@
 <div class="buttons">
     <button type="button" (click)="openProductPopup()" class="btn mew-btn">New</button>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Cost Price</th>
-            <th>Variants</th>
-            <th>Inventory and job</th>
-            <th>Stock</th>
-            <th>Total</th>
-            <th>Development Costs</th>
-            <th>Additional Costs</th>
-            <th>Edit</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (product of productService.products; track product._id) {
+<div class="table-container">
+    <table class="table">
+        <thead>
             <tr>
-                <td>{{ product.name }}</td>
-                <td>
-                    <app-price [product]="product" />
-                </td>
-                <td>{{ getCostPrice(product) | currency }}</td>
-                <td>
-                    <app-variant [variants]="product.variants" [productId]="product._id" />
-                </td>
-                <td>
-                    <app-inventory
-                        [manufacturingCost]="product.manufacturingCost"
-                        [variants]="product.variants" />
-                    <app-job [manufacturingCost]="product.manufacturingCost" />
-                </td>
-                <td>{{ getStock(product) }}</td>
-                <td>{{ getTotal(product) }}</td>
-                <td>
-                    <app-development-cost [product]="product" />
-                </td>
-                <td>
-                    <app-additional-cost [product]="product" />
-                </td>
-                <td>
-                    <button
-                        class="link"
-                        type="button"
-                        (click)="openProductPopup(product)"
-                        class="btn mew-btn">
-                        Update
-                    </button>
-                </td>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Cost Price</th>
+                <th>Variants</th>
+                <th>Inventory and job</th>
+                <th>Stock</th>
+                <th>Total</th>
+                <th>Development Costs</th>
+                <th>Additional Costs</th>
+                <th>Edit</th>
             </tr>
-        }
-    </tbody>
-</table>
-<app-popup (save)="addProduct()" #productPopup>
-    <app-product-form [form]="productForm" />
-</app-popup>
+        </thead>
+        <tbody>
+            @for (product of productService.products; track product._id) {
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>
+                        <app-price [product]="product" />
+                    </td>
+                    <td>{{ getCostPrice(product) | currency }}</td>
+                    <td>
+                        <app-variant [variants]="product.variants" [productId]="product._id" />
+                    </td>
+                    <td>
+                        <app-inventory
+                            [manufacturingCost]="product.manufacturingCost"
+                            [variants]="product.variants" />
+                        <app-job [manufacturingCost]="product.manufacturingCost" />
+                    </td>
+                    <td>{{ getStock(product) }}</td>
+                    <td>{{ getTotal(product) }}</td>
+                    <td>
+                        <app-development-cost [product]="product" />
+                    </td>
+                    <td>
+                        <app-additional-cost [product]="product" />
+                    </td>
+                    <td>
+                        <button
+                            class="link"
+                            type="button"
+                            (click)="openProductPopup(product)"
+                            class="btn mew-btn">
+                            Update
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <app-popup (save)="addProduct()" #productPopup>
+        <app-product-form [form]="productForm" />
+    </app-popup>
+</div>

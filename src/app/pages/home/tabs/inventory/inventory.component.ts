@@ -86,7 +86,7 @@ export class InventoryComponent implements OnInit {
     }
 
     public update(item: Inventory): void {
-        this.form.setValue(item);
+        this.form.patchValue(item);
         this.popupRef()?.openPopup();
     }
 
