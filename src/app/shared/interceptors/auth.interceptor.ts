@@ -12,7 +12,11 @@ import { catchError, throwError } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
     const authService = inject(AuthService);
-    const url = `http://localhost:3000/${req.url}`;
+    const baseUrl =
+        window.location.protocol === 'https:'
+            ? 'https://zatterstedt-server.vercel.app'
+            : 'http://localhost:3000';
+    const url = `${baseUrl}/${req.url}`;
     const modifiedReq = req.clone({ withCredentials: true, url });
     return next(modifiedReq).pipe(
         catchError((error: HttpErrorResponse) => {
