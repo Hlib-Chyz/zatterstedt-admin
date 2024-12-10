@@ -7,11 +7,14 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '@shared/services/auth.service';
-import { catchError, throwError } from 'rxjs';
+import { LoaderService } from '@shared/services/loader.service';
+import { catchError, finalize, throwError } from 'rxjs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
     const authService = inject(AuthService);
+    const loaderService = inject(LoaderService);
+    loaderService.showLoader();
     const baseUrl =
         window.location.protocol === 'https:'
             ? 'https://zatterstedt-server.vercel.app'
@@ -27,6 +30,9 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
                 console.error('A network or CORS issue occurred:', error);
             }
             return throwError(() => error);
+        }),
+        finalize(() => {
+            loaderService.hideLoader();
         })
     );
 };

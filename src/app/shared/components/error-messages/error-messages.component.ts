@@ -1,13 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { KeyValuePipe } from '@angular/common';
+import { Component, input } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { ErrorMessagesType } from '@shared/types/error-messages.types';
 
 @Component({
     selector: 'app-error-messages',
     templateUrl: './error-messages.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule],
+    imports: [KeyValuePipe],
 })
 export class ErrorMessagesComponent {
     public readonly errors = input.required<ValidationErrors | undefined | null>();
