@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, input, Output, viewChild } from '@angular/core';
 import PopupComponent from '@shared/components/popup/popup.component';
 import { IsArrayPipe } from '@shared/components/table/pipes/is-array.pipe';
@@ -7,7 +8,7 @@ import { ColumnsFromData } from '@shared/types/table.types';
     selector: 'app-table',
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],
-    imports: [PopupComponent, IsArrayPipe],
+    imports: [PopupComponent, IsArrayPipe, NgTemplateOutlet],
 })
 export default class TableComponent<T extends { _id: string }> {
     @Output() public update = new EventEmitter<T>();

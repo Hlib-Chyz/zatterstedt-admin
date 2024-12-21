@@ -24,17 +24,26 @@
                     @for (column of columns(); track column) {
                         <td>
                             @let value = item[column.field];
-                            @if (value | isArray) {
-                                <ol>
-                                    @for (item of $any(value); track item) {
-                                        <li>
-                                            {{ item }}
-                                        </li>
-                                    }
-                                </ol>
+                            @if (column.action) {
+                                <button (click)="column.action(item)" class="link">
+                                    <ng-container *ngTemplateOutlet="rowValue" />
+                                </button>
                             } @else {
-                                {{ value }}
+                                <ng-container *ngTemplateOutlet="rowValue" />
                             }
+                            <ng-template #rowValue>
+                                @if (value | isArray) {
+                                    <ol>
+                                        @for (item of $any(value); track item) {
+                                            <li>
+                                                {{ item }}
+                                            </li>
+                                        }
+                                    </ol>
+                                } @else {
+                                    {{ value }}
+                                }
+                            </ng-template>
                         </td>
                     }
                     @if (update.observed) {

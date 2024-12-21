@@ -31,6 +31,11 @@ export type InventoryForm = FormGroup<{
     date: FormControl<string>;
 }>;
 
+export type UsedForm = FormGroup<{
+    _id: FormControl<string>;
+    used: FormControl<number>;
+}>;
+
 export type InventoryFormArray = FormArray<
     FormGroup<{
         duringManufacture: FormControl<boolean>;

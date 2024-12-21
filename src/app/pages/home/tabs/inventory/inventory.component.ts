@@ -1,10 +1,11 @@
 import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { InventoryFormComponent } from '@app/pages/home/tabs/inventory/inventory-form/inventory-form.component';
+import { UsedFormComponent } from '@app/pages/home/tabs/inventory/used-form/used-form.component';
 import PopupComponent from '@shared/components/popup/popup.component';
 import TableComponent from '@shared/components/table/table.component';
 import { InventoryHttpService } from '@shared/services/inventory-http.service';
-import { Inventory, InventoryForm, NewInventory } from '@shared/types/inventory.types';
+import { Inventory, InventoryForm, NewInventory, UsedForm } from '@shared/types/inventory.types';
 import { ColumnsFromData } from '@shared/types/table.types';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
@@ -12,7 +13,7 @@ import { Observable, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-inventory',
-    imports: [TableComponent, PopupComponent, InventoryFormComponent],
+    imports: [TableComponent, PopupComponent, InventoryFormComponent, UsedFormComponent],
     templateUrl: './inventory.component.html',
 })
 export class InventoryComponent implements OnInit {
@@ -34,6 +35,7 @@ export class InventoryComponent implements OnInit {
         {
             field: 'used',
             name: 'Used',
+            action: this.openUsedPopup.bind(this),
         },
         {
             field: 'paid',
@@ -53,7 +55,12 @@ export class InventoryComponent implements OnInit {
         used: [0, [Validators.required, Validators.min(0)]],
         date: [formatDateToYYYYMMDD(), Validators.required],
     });
+    public usedForm: UsedForm = this.fb.group({
+        _id: '',
+        used: [0, [Validators.required, Validators.min(0)]],
+    });
     public popupRef = viewChild<PopupComponent>('popup');
+    public usedPopupRef = viewChild<PopupComponent>('usedPopup');
 
     public ngOnInit(): void {
         this.getData().subscribe();
@@ -88,6 +95,25 @@ export class InventoryComponent implements OnInit {
     public update(item: Inventory): void {
         this.form.patchValue(item);
         this.popupRef()?.openPopup();
+    }
+
+    public openUsedPopup(inventory: Inventory): void {
+        this.usedForm.setValue({ _id: inventory._id, used: inventory.used });
+        this.usedPopupRef()?.openPopup();
+    }
+
+    public saveUsedValue(): void {
+        if (this.usedForm.invalid) {
+            this.usedForm.markAllAsTouched();
+            return;
+        }
+        const { _id, used } = this.usedForm.getRawValue();
+        this.inventoryHttpService
+            .setUsedField(_id, used)
+            .pipe(switchMap(() => this.getData()))
+            .subscribe(() => {
+                this.usedPopupRef()?.closePopup();
+            });
     }
 
     public remove(id: string): void {

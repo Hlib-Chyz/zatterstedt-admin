@@ -1,6 +1,9 @@
 <app-popup (save)="onSubmit()" #popup>
     <app-inventory-form [form]="form" />
 </app-popup>
+<app-popup (save)="saveUsedValue()" #usedPopup>
+    <app-used-form [form]="usedForm" />
+</app-popup>
 <app-table
     [columns]="columns"
     [data]="data()"

@@ -23,4 +23,8 @@ export class InventoryHttpService {
     public delete(id: string): Observable<Response> {
         return this.http.delete<Response>(`${this.controller}/${id}`);
     }
+
+    public setUsedField(_id: string, used: number): Observable<Response> {
+        return this.http.put<Response>(`${this.controller}/used`, { _id, used });
+    }
 }
