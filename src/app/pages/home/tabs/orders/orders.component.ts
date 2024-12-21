@@ -77,7 +77,7 @@ export class OrdersComponent implements OnInit {
     private getData(): Observable<Order[]> {
         return this.orderService.getAll().pipe(
             tap((orders) => {
-                this.data.set(orders);
+                this.data.set(orders.reverse());
             })
         );
     }
