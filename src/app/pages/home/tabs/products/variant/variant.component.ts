@@ -1,28 +1,44 @@
 import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { RealizedPartyFormComponent } from '@app/pages/home/tabs/products/variant/realized-party-form/realized-party-form.component';
 import { VariantFormComponent } from '@app/pages/home/tabs/products/variant/variant-form/variant-form.component';
 import PopupComponent from '@shared/components/popup/popup.component';
 import { ProductService } from '@shared/services/product.service';
+import { StockService } from '@shared/services/stock.service';
 import { VariantService } from '@shared/services/variant.service';
+import { RealizedPartyForm } from '@shared/types/stock.types';
 import { VariantForm, VariantProduct, VariantsControl } from '@shared/types/variant.types';
 import { switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-variant',
-    imports: [ReactiveFormsModule, PopupComponent, MatIconModule, VariantFormComponent],
+    imports: [
+        ReactiveFormsModule,
+        PopupComponent,
+        MatIconModule,
+        VariantFormComponent,
+        RealizedPartyFormComponent,
+    ],
     templateUrl: './variant.component.html',
+    styleUrl: './variant.component.scss',
 })
 export class VariantComponent {
     private readonly fb = inject(NonNullableFormBuilder);
     private readonly productService = inject(ProductService);
     private readonly variantService = inject(VariantService);
+    private readonly stockService = inject(StockService);
     public variants = input.required<VariantProduct[]>();
     public productId = input.required<string>();
     public variantPopupRef = viewChild<PopupComponent>('variantPopup');
+    public realizedPartyPopupRef = viewChild<PopupComponent>('realizedPartyPopup');
     public readonly variantForm: VariantForm = this.fb.group({
         productId: ['', Validators.required],
         variants: this.fb.array([]) as unknown as VariantsControl,
+    });
+    public readonly realizedPartyForm: RealizedPartyForm = this.fb.group({
+        variantId: ['', Validators.required],
+        realizedParty: [0, Validators.required],
     });
     public canSaveVariants = false;
 
@@ -80,6 +96,27 @@ export class VariantComponent {
                 });
         } else {
             this.variantForm.markAllAsTouched();
+        }
+    }
+
+    public openRealizedPartyPopup(variantId: string, realizedParty: number): void {
+        this.realizedPartyForm.setValue({
+            variantId,
+            realizedParty,
+        });
+        this.realizedPartyPopupRef()?.openPopup();
+    }
+
+    public setRealizedParty(): void {
+        if (this.realizedPartyForm.valid) {
+            this.stockService
+                .setRealizedParty(this.realizedPartyForm.getRawValue())
+                .pipe(switchMap(() => this.productService.getProducts()))
+                .subscribe(() => {
+                    this.realizedPartyPopupRef()?.closePopup();
+                });
+        } else {
+            this.realizedPartyForm.markAllAsTouched();
         }
     }
 }

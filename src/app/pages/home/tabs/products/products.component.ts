@@ -8,11 +8,11 @@ import { InventoryComponent } from '@app/pages/home/tabs/products/inventory/inve
 import { JobComponent } from '@app/pages/home/tabs/products/job/job.component';
 import { PriceComponent } from '@app/pages/home/tabs/products/price/price.component';
 import { ProductFormComponent } from '@app/pages/home/tabs/products/product-form/product-form.component';
-import { VariantComponent } from '@app/pages/home/tabs/products/variant/varinat.component';
+import { VariantComponent } from '@app/pages/home/tabs/products/variant/variant.component';
 import PopupComponent from '@shared/components/popup/popup.component';
 import { ProductHttpService } from '@shared/services/product-http.service';
 import { ProductService } from '@shared/services/product.service';
-import { EditableProduct, Product, ProductForm } from '@shared/types/product.type';
+import { EditableProduct, Product, ProductForm } from '@shared/types/product.types';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
 import { switchMap } from 'rxjs';
 

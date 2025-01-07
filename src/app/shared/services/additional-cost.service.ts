@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AdditionalCost } from '@shared/types/additional-cost.types';
 import { Observable } from 'rxjs';
-import { DefaultResponse } from '@shared/types/response.type';
+import { DefaultResponse } from '@shared/types/response.types';
 
 @Injectable({ providedIn: 'root' })
 export class AdditionalCostService {

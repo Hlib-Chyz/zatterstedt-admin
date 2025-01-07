@@ -4,6 +4,7 @@
     "type": "module",
     "scripts": {
         "ng": "ng",
+        "start:host": "ng serve --open --host=192.168.0.109",
         "start": "ng serve --open",
         "build": "ng build --configuration production",
         "watch": "ng build --watch --configuration development",

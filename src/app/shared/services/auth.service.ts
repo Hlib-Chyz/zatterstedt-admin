@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Path } from '@shared/types/path.types';
-import { DefaultResponse } from '@shared/types/response.type';
+import { DefaultResponse } from '@shared/types/response.types';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

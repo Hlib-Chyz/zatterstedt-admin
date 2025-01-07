@@ -1,5 +1,5 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { StockVariantProduct } from '@shared/types/stock.service';
+import { StockVariantProduct } from '@shared/types/stock.types';
 
 export type VariantProduct = {
     _id: string;

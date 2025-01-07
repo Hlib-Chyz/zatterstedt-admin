@@ -7,7 +7,7 @@ import PopupComponent from '@shared/components/popup/popup.component';
 import { ProductHttpService } from '@shared/services/product-http.service';
 import { ProductService } from '@shared/services/product.service';
 import { PriceForm } from '@shared/types/price.types';
-import { Product } from '@shared/types/product.type';
+import { Product } from '@shared/types/product.types';
 import { switchMap } from 'rxjs';
 
 @Component({

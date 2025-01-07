@@ -5,7 +5,7 @@ import {
     InventoryManufacturingCostProduct,
 } from '@shared/types/inventory.types';
 import { JobManufacturingCostProduct } from '@shared/types/job.types';
-import { DefaultResponse } from '@shared/types/response.type';
+import { DefaultResponse } from '@shared/types/response.types';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

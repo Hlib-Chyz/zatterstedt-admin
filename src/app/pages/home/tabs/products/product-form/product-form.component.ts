@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TextControlComponent } from '@shared/components/text-control/text-control.component';
-import { ProductForm } from '@shared/types/product.type';
+import { ProductForm } from '@shared/types/product.types';
 
 @Component({
     selector: 'app-product-form',

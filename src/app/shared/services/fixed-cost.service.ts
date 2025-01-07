@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { FixedCost, NewFixedCost } from '@shared/types/fixed-cost.types';
-import { DefaultResponse } from '@shared/types/response.type';
+import { DefaultResponse } from '@shared/types/response.types';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

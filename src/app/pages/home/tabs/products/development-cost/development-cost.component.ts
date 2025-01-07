@@ -11,7 +11,7 @@ import {
     DevelopmentCostProduct,
     NewDevelopmentCost,
 } from '@shared/types/development-cost.types';
-import { Product } from '@shared/types/product.type';
+import { Product } from '@shared/types/product.types';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
 import { switchMap } from 'rxjs';

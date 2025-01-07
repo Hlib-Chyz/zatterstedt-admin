@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ProductHttpService } from '@shared/services/product-http.service';
-import { Product } from '@shared/types/product.type';
+import { Product } from '@shared/types/product.types';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

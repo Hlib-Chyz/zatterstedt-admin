@@ -3,10 +3,19 @@
         <li>
             {{ variant.size }} / {{ variant.color }} - In stock:
             {{ variant.stock.total - variant.stock.sold }}
+            <button
+                (click)="openRealizedPartyPopup(variant._id, variant.stock.realizedParty)"
+                class="link"
+                type="button">
+                Realized Party - {{ variant.stock.realizedParty }}
+            </button>
         </li>
     }
 </ul>
 <button class="link" (click)="openVariantPopup()">Set variants</button>
 <app-popup [canSave]="canSaveVariants" (save)="setVariants()" #variantPopup>
     <app-variant-form [canSave]="canSaveVariants" [form]="variantForm" />
+</app-popup>
+<app-popup (save)="setRealizedParty()" #realizedPartyPopup>
+    <app-realized-party-form [form]="realizedPartyForm" />
 </app-popup>
