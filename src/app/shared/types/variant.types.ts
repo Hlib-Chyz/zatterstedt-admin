@@ -8,13 +8,6 @@ export type VariantProduct = {
     stock: StockVariantProduct;
 };
 
-export type VariantNewProduct = {
-    size: string;
-    color: string;
-    quantity: number;
-    realizedParty: number;
-};
-
 export type Variant = {
     _id: string;
     name: string;
@@ -30,7 +23,6 @@ export type NewVariant = {
     size: string;
     color: string;
     quantity: number;
-    realizedParty: number;
 };
 
 export type VariantsControl = FormArray<
@@ -38,7 +30,6 @@ export type VariantsControl = FormArray<
         size: FormControl<string>;
         color: FormControl<string>;
         quantity: FormControl<number>;
-        realizedParty: FormControl<number>;
     }>
 >;
 

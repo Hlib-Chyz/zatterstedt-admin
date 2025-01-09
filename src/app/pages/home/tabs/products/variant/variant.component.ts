@@ -63,10 +63,6 @@ export class VariantComponent {
                         size: [variant.size, Validators.required],
                         color: [variant.color, Validators.required],
                         quantity: [variant.stock.total, [Validators.required, Validators.min(0)]],
-                        realizedParty: [
-                            variant.stock.realizedParty,
-                            [Validators.required, Validators.min(0)],
-                        ],
                     })
                 );
             });
@@ -76,7 +72,6 @@ export class VariantComponent {
                     size: ['', Validators.required],
                     color: ['', Validators.required],
                     quantity: [0, [Validators.required, Validators.min(0)]],
-                    realizedParty: [0, [Validators.required, Validators.min(0)]],
                 })
             );
         }

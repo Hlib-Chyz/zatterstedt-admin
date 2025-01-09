@@ -20,7 +20,6 @@ export class VariantFormComponent {
                 size: ['', Validators.required],
                 color: ['', Validators.required],
                 quantity: [0, [Validators.required, Validators.min(0)]],
-                realizedParty: [0, [Validators.required, Validators.min(0)]],
             })
         );
     }

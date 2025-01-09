@@ -19,14 +19,10 @@ export class AuthService {
     }
 
     public verifyCode(email: string, code: string): Observable<DefaultResponse> {
-        return this.http.post<DefaultResponse>(
-            `${this.controller}/verify-code`,
-            {
-                email,
-                code,
-            },
-            { withCredentials: true }
-        );
+        return this.http.post<DefaultResponse>(`${this.controller}/verify-code`, {
+            email,
+            code,
+        });
     }
 
     public logout(): void {
