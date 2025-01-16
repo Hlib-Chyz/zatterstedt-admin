@@ -69,7 +69,8 @@ export class ProductsComponent implements OnInit {
             }, 0) *
                 this.getTotal(product)) /
             this.getTotalRealizedParty(product);
-        return developmentCostsSum + inventoryCost + job + product.additionalCost.cost;
+        const additionalCost = product.additionalCost.cost / this.getTotalRealizedParty(product);
+        return developmentCostsSum + inventoryCost + job + additionalCost;
     }
 
     public getStock(product: Product): number {
