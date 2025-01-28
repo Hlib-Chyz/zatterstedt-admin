@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { TextControlComponent } from '@shared/components/text-control/text-control.component';
 import { AuthService } from '@shared/services/auth.service';
 import { Path } from '@shared/types/path.types';
-import { delay, tap } from 'rxjs';
 
 @Component({
     templateUrl: 'login.component.html',
@@ -33,17 +32,9 @@ export default class LoginComponent implements AfterViewInit {
     public async onSubmitLogin(): Promise<void> {
         if (this.loginForm.valid) {
             const { email, password } = this.loginForm.getRawValue();
-            this.authService
-                .login(email, password)
-                .pipe(
-                    tap(() => {
-                        this.isCodeSent = true;
-                    }),
-                    delay(0)
-                )
-                .subscribe(() => {
-                    this.codeInputRef()?.nativeElement.focus();
-                });
+            this.authService.login(email, password).subscribe(() => {
+                this.router.navigate(['/', Path.Home]);
+            });
         }
     }
 
