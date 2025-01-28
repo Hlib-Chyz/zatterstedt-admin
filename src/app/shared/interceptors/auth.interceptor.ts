@@ -20,7 +20,12 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
             ? 'https://zatterstedt-server.vercel.app'
             : 'http://localhost:3000';
     const url = `${baseUrl}/${req.url}`;
-    const modifiedReq = req.clone({ withCredentials: true, url });
+    const token = authService.getToken();
+    const modifiedReq = req.clone({
+        url,
+        setHeaders: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+
     return next(modifiedReq).pipe(
         catchError((error: HttpErrorResponse) => {
             console.log(error);
