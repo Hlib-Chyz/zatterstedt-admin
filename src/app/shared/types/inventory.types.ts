@@ -1,4 +1,5 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Guid } from 'guid-typescript';
 
 export type Inventory = {
     _id: string;
@@ -38,6 +39,7 @@ export type UsedForm = FormGroup<{
 
 export type InventoryFormArray = FormArray<
     FormGroup<{
+        id: FormControl<Guid>;
         duringManufacture: FormControl<boolean>;
         inventoryId: FormControl<string>;
         cost: FormControl<number>;

@@ -1,4 +1,5 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Guid } from 'guid-typescript';
 
 export type JobManufacturingCostProduct = {
     name: string;
@@ -6,6 +7,8 @@ export type JobManufacturingCostProduct = {
 };
 
 export type JobForm = FormGroup<{
-    job: FormArray<FormGroup<{ name: FormControl<string>; cost: FormControl<number> }>>;
+    job: FormArray<
+        FormGroup<{ id: FormControl<Guid>; name: FormControl<string>; cost: FormControl<number> }>
+    >;
     _id: FormControl<string>;
 }>;

@@ -3,6 +3,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { ErrorMessagesComponent } from '@shared/components/error-messages/error-messages.component';
 import { TextControlComponent } from '@shared/components/text-control/text-control.component';
 import { Inventory, InventoryProductForm } from '@shared/types/inventory.types';
+import { Guid } from 'guid-typescript';
 
 @Component({
     selector: 'app-inventory-form',
@@ -18,6 +19,7 @@ export class InventoryFormComponent {
 
     public addInventory(): void {
         const newInventory = this.fb.group({
+            id: Guid.create(),
             duringManufacture: false,
             inventoryId: ['', Validators.required],
             cost: [0, [Validators.required, Validators.min(0)]],

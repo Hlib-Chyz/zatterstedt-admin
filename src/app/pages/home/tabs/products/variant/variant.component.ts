@@ -9,6 +9,7 @@ import { StockService } from '@shared/services/stock.service';
 import { VariantService } from '@shared/services/variant.service';
 import { RealizedPartyForm } from '@shared/types/stock.types';
 import { VariantForm, VariantProduct, VariantsControl } from '@shared/types/variant.types';
+import { Guid } from 'guid-typescript';
 import { switchMap } from 'rxjs';
 
 @Component({
@@ -60,6 +61,7 @@ export class VariantComponent {
             variants.forEach((variant) => {
                 this.variantForm.controls.variants.push(
                     this.fb.group({
+                        id: Guid.create(),
                         size: [variant.size, Validators.required],
                         color: [variant.color, Validators.required],
                         quantity: [variant.stock.total, [Validators.required, Validators.min(0)]],
@@ -69,6 +71,7 @@ export class VariantComponent {
         } else {
             this.variantForm.controls.variants.push(
                 this.fb.group({
+                    id: Guid.create(),
                     size: ['', Validators.required],
                     color: ['', Validators.required],
                     quantity: [0, [Validators.required, Validators.min(0)]],
@@ -80,9 +83,15 @@ export class VariantComponent {
 
     public setVariants(): void {
         if (this.variantForm.valid) {
+            const { productId, variants } = this.variantForm.getRawValue();
             this.variantService
                 .setVariants({
-                    ...this.variantForm.getRawValue(),
+                    variants: variants.map((variant) => {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        const { id, ...rest } = variant;
+                        return rest;
+                    }),
+                    productId,
                     oldVariantIds: this.variants().map(({ _id }) => _id),
                 })
                 .pipe(switchMap(() => this.productService.getProducts()))

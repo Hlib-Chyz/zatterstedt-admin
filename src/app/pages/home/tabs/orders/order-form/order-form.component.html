@@ -14,12 +14,7 @@
     <app-text-control label="Date" controlName="date" type="date" />
     <ng-container formArrayName="variants">
         <ul>
-            @for (
-                variant of form().controls.variants.controls;
-                track variant.getRawValue()._id +
-                    variant.getRawValue().quantity +
-                    variant.getRawValue().price
-            ) {
+            @for (variant of form().controls.variants.controls; track variant.getRawValue().id) {
                 <li [formGroupName]="$index">
                     <div class="form-group">
                         <label>Variant:</label>

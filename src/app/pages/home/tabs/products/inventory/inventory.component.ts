@@ -9,6 +9,7 @@ import { ProductService } from '@shared/services/product.service';
 import { InventoryFormArray, InventoryProductForm } from '@shared/types/inventory.types';
 import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
 import { VariantProduct } from '@shared/types/variant.types';
+import { Guid } from 'guid-typescript';
 import { switchMap } from 'rxjs';
 
 @Component({
@@ -50,6 +51,7 @@ export class InventoryComponent {
         if (manufacturingCost.inventory.length) {
             manufacturingCost.inventory.forEach((inv) => {
                 const newInventory = this.fb.group({
+                    id: Guid.create(),
                     duringManufacture: inv.duringManufacture,
                     inventoryId: [inv.inventoryId, Validators.required],
                     quantityInUse: [inv.quantityInUse, [Validators.required, Validators.min(0)]],
@@ -69,6 +71,7 @@ export class InventoryComponent {
             });
         } else {
             const newInventory = this.fb.group({
+                id: Guid.create(),
                 duringManufacture: false,
                 inventoryId: ['', Validators.required],
                 quantityInUse: [0, [Validators.required, Validators.min(0)]],
@@ -92,9 +95,16 @@ export class InventoryComponent {
 
     public setInventory(): void {
         if (this.inventoryForm.valid) {
+            const { _id, inventory } = this.inventoryForm.getRawValue();
             this.manufacturingCostService
                 .setInventory({
-                    ...this.inventoryForm.getRawValue(),
+                    _id,
+                    inventory: inventory.map((inv) => {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        const { id, ...rest } = inv;
+                        return rest;
+                    }),
+
                     oldInventory: this.manufacturingCost().inventory,
                 })
                 .pipe(switchMap(() => this.productService.getProducts()))

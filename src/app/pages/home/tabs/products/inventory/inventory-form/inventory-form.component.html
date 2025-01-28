@@ -3,10 +3,7 @@
         <ul>
             @for (
                 inventory of form().controls.inventory.controls;
-                track inventory.getRawValue().inventoryId +
-                    inventory.getRawValue().quantityInCost +
-                    inventory.getRawValue().quantityInUse +
-                    inventory.getRawValue().duringManufacture
+                track inventory.getRawValue().id
             ) {
                 <li [formGroupName]="$index">
                     <div class="form-group select">

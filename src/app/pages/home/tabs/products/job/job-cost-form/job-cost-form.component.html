@@ -1,10 +1,7 @@
 <form [formGroup]="form()">
     <ng-container formArrayName="job">
         <ul>
-            @for (
-                job of form().controls.job.controls;
-                track form().getRawValue()._id + job.getRawValue().name + job.getRawValue().cost
-            ) {
+            @for (job of form().controls.job.controls; track job.getRawValue().id) {
                 <li [formGroupName]="$index">
                     <app-text-control label="Name" controlName="name" />
                     <app-text-control label="Cost" controlName="cost" type="number" />

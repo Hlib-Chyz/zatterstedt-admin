@@ -14,6 +14,7 @@ import { ManufacturingCostService } from '@shared/services/manufacturing-cost.se
 import { ProductService } from '@shared/services/product.service';
 import { JobForm } from '@shared/types/job.types';
 import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
+import { Guid } from 'guid-typescript';
 import { switchMap } from 'rxjs';
 
 @Component({
@@ -29,7 +30,11 @@ export class JobComponent {
     public jobPopupRef = viewChild<PopupComponent>('jobPopup');
     public readonly jobForm: JobForm = this.fb.group({
         job: this.fb.array([]) as unknown as FormArray<
-            FormGroup<{ name: FormControl<string>; cost: FormControl<number> }>
+            FormGroup<{
+                id: FormControl<Guid>;
+                name: FormControl<string>;
+                cost: FormControl<number>;
+            }>
         >,
         _id: ['', Validators.required],
     });
@@ -40,6 +45,7 @@ export class JobComponent {
             manufacturingCost.job.forEach((job) => {
                 this.jobForm.controls.job.push(
                     this.fb.group({
+                        id: Guid.create(),
                         name: [job.name, Validators.required],
                         cost: [job.cost, [Validators.required, Validators.min(0)]],
                     })
@@ -48,6 +54,7 @@ export class JobComponent {
         } else {
             this.jobForm.controls.job.push(
                 this.fb.group({
+                    id: Guid.create(),
                     name: ['', Validators.required],
                     cost: [0, [Validators.required, Validators.min(0)]],
                 })
@@ -61,8 +68,16 @@ export class JobComponent {
 
     public changeJob(): void {
         if (this.jobForm.valid) {
+            const { _id, job } = this.jobForm.getRawValue();
             this.manufacturingCostService
-                .setJob(this.jobForm.getRawValue())
+                .setJob({
+                    _id,
+                    job: job.map((jo) => {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        const { id, ...rest } = jo;
+                        return rest;
+                    }),
+                })
                 .pipe(switchMap(() => this.productService.getProducts()))
                 .subscribe(() => {
                     this.jobPopupRef()?.closePopup();

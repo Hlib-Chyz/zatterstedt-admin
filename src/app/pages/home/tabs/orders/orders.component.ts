@@ -13,6 +13,7 @@ import { OrderService } from '@shared/services/order.service';
 import { Order, OrderForm } from '@shared/types/order.types';
 import { ColumnsFromData } from '@shared/types/table.types';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
+import { Guid } from 'guid-typescript';
 import { Observable, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -37,6 +38,7 @@ export class OrdersComponent implements OnInit {
         clientId: '',
         variants: this.fb.array([]) as unknown as FormArray<
             FormGroup<{
+                id: FormControl<Guid>;
                 _id: FormControl<string>;
                 quantity: FormControl<number>;
                 price: FormControl<number>;
@@ -54,8 +56,16 @@ export class OrdersComponent implements OnInit {
             this.form.markAllAsTouched();
             return;
         }
+        const { variants, ...rest } = this.form.getRawValue();
         this.orderService
-            .add(this.form.getRawValue())
+            .add({
+                ...rest,
+                variants: variants.map((vari) => {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    const { id, ...rest } = vari;
+                    return rest;
+                }),
+            })
             .pipe(switchMap(() => this.getData()))
             .subscribe(() => {
                 this.popupRef()?.closePopup();

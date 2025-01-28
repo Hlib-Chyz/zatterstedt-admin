@@ -1,5 +1,6 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { VariantOrder } from '@shared/types/variant.types';
+import { Guid } from 'guid-typescript';
 
 export type Order = {
     _id: string;
@@ -24,6 +25,7 @@ export type OrderForm = FormGroup<{
     clientId: FormControl<string>;
     variants: FormArray<
         FormGroup<{
+            id: FormControl<Guid>;
             _id: FormControl<string>;
             quantity: FormControl<number>;
             price: FormControl<number>;

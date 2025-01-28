@@ -5,6 +5,7 @@ import { TextControlComponent } from '@shared/components/text-control/text-contr
 import { ClientService } from '@shared/services/client.service';
 import { VariantService } from '@shared/services/variant.service';
 import { OrderForm } from '@shared/types/order.types';
+import { Guid } from 'guid-typescript';
 
 @Component({
     selector: 'app-order-form',
@@ -23,6 +24,7 @@ export class OrderFormComponent {
     public addVariant(): void {
         this.form().controls.variants.push(
             this.fb.group({
+                id: Guid.create(),
                 _id: ['', Validators.required],
                 quantity: [0, [Validators.required, Validators.min(0)]],
                 price: [0, [Validators.required, Validators.min(0)]],
