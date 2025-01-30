@@ -9,6 +9,7 @@ import { inject } from '@angular/core';
 import { AuthService } from '@shared/services/auth.service';
 import { LoaderService } from '@shared/services/loader.service';
 import { catchError, finalize, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
@@ -16,9 +17,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
     const loaderService = inject(LoaderService);
     loaderService.showLoader();
     const baseUrl =
-        window.location.protocol === 'https:'
-            ? 'https://zatterstedt-server.vercel.app'
-            : 'http://localhost:3000';
+        window.location.protocol === 'https:' ? environment.apiUrl : 'http://localhost:3000';
     const url = `${baseUrl}/${req.url}`;
     const token = authService.getToken();
     const modifiedReq = req.clone({

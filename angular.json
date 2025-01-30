@@ -51,7 +51,7 @@
                     "builder": "@angular-devkit/build-angular:application",
                     "options": {
                         "outputPath": {
-                          "base": "dist/zatterstedt-admin"
+                            "base": "dist/zatterstedt-admin"
                         },
                         "index": "src/index.html",
                         "polyfills": ["zone.js", "@angular/localize/init"],
@@ -59,8 +59,8 @@
                         "inlineStyleLanguage": "sass",
                         "assets": ["src/favicon.ico", "src/assets"],
                         "styles": [
-                          "@angular/material/prebuilt-themes/azure-blue.css",
-                          "src/styles.scss"
+                            "@angular/material/prebuilt-themes/azure-blue.css",
+                            "src/styles.scss"
                         ],
                         "scripts": [],
                         "browser": "src/main.ts"
@@ -79,10 +79,37 @@
                                     "maximumError": "6kb"
                                 }
                             ],
-                            "outputHashing": "all"
+                            "outputHashing": "all",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ]
+                        },
+                        "demo": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "501kb",
+                                    "maximumError": "8mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "4kb",
+                                    "maximumError": "6kb"
+                                }
+                            ],
+                            "outputHashing": "all",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.demo.ts"
+                                }
+                            ]
                         },
                         "development": {
-                          "optimization": false,
+                            "optimization": false,
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true
@@ -118,8 +145,8 @@
                         "inlineStyleLanguage": "sass",
                         "assets": ["src/favicon.ico", "src/assets"],
                         "styles": [
-                          "@angular/material/prebuilt-themes/azure-blue.css",
-                          "src/styles.scss"
+                            "@angular/material/prebuilt-themes/azure-blue.css",
+                            "src/styles.scss"
                         ],
                         "scripts": [],
                         "codeCoverage": true
