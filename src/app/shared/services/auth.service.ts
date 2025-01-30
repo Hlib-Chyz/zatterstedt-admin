@@ -46,6 +46,6 @@ export class AuthService {
 
     public logout(): void {
         this.removeToken();
-        this.router.navigate([Path.Login]);
+        this.router.navigate(['/', Path.Login]);
     }
 }
