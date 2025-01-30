@@ -7,7 +7,7 @@
         "start:host": "ng serve --open --host=192.168.0.109",
         "start": "ng serve --open",
         "start:prod": "ng serve --open --configuration production",
-        "build": "ng build --configuration production",
+        "build:production": "ng build --configuration production",
         "build:demo": "ng build --configuration demo",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
