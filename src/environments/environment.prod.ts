@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://zatterstedt-server.vercel.app/prod',
+    apiUrl: 'https://zatterstedt-server.vercel.app',
 };
