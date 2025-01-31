@@ -8,6 +8,7 @@ import {
 import { inject } from '@angular/core';
 import { AuthService } from '@shared/services/auth.service';
 import { LoaderService } from '@shared/services/loader.service';
+import { ToastrService } from 'ngx-toastr';
 import { catchError, finalize, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -15,6 +16,7 @@ import { environment } from 'src/environments/environment';
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
     const authService = inject(AuthService);
     const loaderService = inject(LoaderService);
+    const toastrService = inject(ToastrService);
     loaderService.showLoader();
     const baseUrl =
         window.location.protocol === 'https:' ? environment.apiUrl : 'http://localhost:3000';
@@ -28,6 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
     return next(modifiedReq).pipe(
         catchError((error: HttpErrorResponse) => {
             console.log(error);
+            toastrService.error(error.error.message);
             if (error.status === 401) {
                 authService.logout();
             } else if (error.status === 0) {
