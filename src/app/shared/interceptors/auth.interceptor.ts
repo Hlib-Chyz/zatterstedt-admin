@@ -24,7 +24,12 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
     const token = authService.getToken();
     const modifiedReq = req.clone({
         url,
-        setHeaders: token ? { Authorization: `Bearer ${token}` } : {},
+        setHeaders: token
+            ? {
+                  Authorization: `Bearer ${token}`,
+                  'x-vercel-protection-bypass': 'qwertyuiopasdfghjklzxcvbnmqwerty',
+              }
+            : { 'x-vercel-protection-bypass': 'qwertyuiopasdfghjklzxcvbnmqwerty' },
     });
 
     return next(modifiedReq).pipe(
