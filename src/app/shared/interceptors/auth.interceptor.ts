@@ -27,9 +27,8 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
         setHeaders: token
             ? {
                   Authorization: `Bearer ${token}`,
-                  'x-vercel-protection-bypass': 'p66S5p5geDL15ANbUQnnUgng7c0vGwf7',
               }
-            : { 'x-vercel-protection-bypass': 'p66S5p5geDL15ANbUQnnUgng7c0vGwf7' },
+            : {},
     });
 
     return next(modifiedReq).pipe(
