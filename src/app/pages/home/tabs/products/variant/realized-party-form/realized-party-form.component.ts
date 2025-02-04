@@ -6,7 +6,6 @@ import { RealizedPartyForm } from '@shared/types/stock.types';
 @Component({
     selector: 'app-realized-party-form',
     imports: [ReactiveFormsModule, TextControlComponent],
-    standalone: true,
     templateUrl: './realized-party-form.component.html',
 })
 export class RealizedPartyFormComponent {

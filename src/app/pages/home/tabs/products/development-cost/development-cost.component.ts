@@ -3,6 +3,7 @@ import { Component, inject, input, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { DevelopmentCostFormComponent } from '@app/pages/home/tabs/products/development-cost/development-cost-form/development-cost-form.component';
+import { SortPipe } from '@app/pages/home/tabs/products/development-cost/sort.pipe';
 import PopupComponent from '@shared/components/popup/popup.component';
 import { DevelopmentCostService } from '@shared/services/development-cost.service';
 import { ProductService } from '@shared/services/product.service';
@@ -24,6 +25,7 @@ import { switchMap } from 'rxjs';
         PopupComponent,
         CurrencyPipe,
         MatIconModule,
+        SortPipe,
     ],
     templateUrl: './development-cost.component.html',
     styleUrl: './development-cost.component.scss',

@@ -11,7 +11,7 @@ export class ProductService {
     public getProducts(): Observable<Product[]> {
         return this.productHttpService.getAll().pipe(
             tap((products) => {
-                this.products = products;
+                this.products = products.sort((a, b) => a.name.localeCompare(b.name));
             })
         );
     }

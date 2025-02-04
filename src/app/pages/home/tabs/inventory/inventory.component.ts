@@ -126,7 +126,11 @@ export class InventoryComponent implements OnInit {
     private getData(): Observable<Inventory[]> {
         return this.inventoryHttpService.getAll().pipe(
             tap((inventory) => {
-                this.data.set(inventory);
+                this.data.set(
+                    inventory.sort(
+                        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+                    )
+                );
             })
         );
     }
