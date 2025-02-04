@@ -53,7 +53,7 @@ export class ClientsComponent implements OnInit {
     private getData(): Observable<Client[]> {
         return this.clientService.getAll().pipe(
             tap((clients) => {
-                this.data.set(clients);
+                this.data.set(clients.sort((a, b) => a.name.localeCompare(b.name)));
             })
         );
     }

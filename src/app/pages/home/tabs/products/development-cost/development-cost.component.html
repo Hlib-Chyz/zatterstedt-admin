@@ -1,5 +1,5 @@
 <ul class="development-cost-list">
-    @for (cost of product().developmentCosts; track cost._id) {
+    @for (cost of product().developmentCosts | sort; track cost._id) {
         <li>
             {{ cost.date }} - {{ cost.description }}: {{ cost.cost | currency }}
             <button class="link" (click)="openDevelopmentCostPopup(product()._id, cost)">

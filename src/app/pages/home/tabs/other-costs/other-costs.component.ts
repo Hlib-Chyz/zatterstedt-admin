@@ -75,7 +75,11 @@ export class OtherCostsComponent implements OnInit {
     private getData(): Observable<OtherCost[]> {
         return this.otherCostService.getAll().pipe(
             tap((otherCosts) => {
-                this.data.set(otherCosts);
+                this.data.set(
+                    otherCosts.sort(
+                        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+                    )
+                );
             })
         );
     }

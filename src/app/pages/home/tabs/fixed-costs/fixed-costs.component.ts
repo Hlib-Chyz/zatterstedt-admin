@@ -72,7 +72,7 @@ export class FixedCostsComponent implements OnInit {
     private getData(): Observable<FixedCost[]> {
         return this.fixedCostService.getAll().pipe(
             tap((fixedCosts) => {
-                this.data.set(fixedCosts);
+                this.data.set(fixedCosts.sort((a, b) => a.name.localeCompare(b.name)));
             })
         );
     }

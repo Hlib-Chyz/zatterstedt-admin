@@ -87,7 +87,7 @@ export class OrdersComponent implements OnInit {
     private getData(): Observable<Order[]> {
         return this.orderService.getAll().pipe(
             tap((orders) => {
-                this.data.set(orders.reverse());
+                this.data.set(orders.sort((a, b) => b.orderNumber.localeCompare(a.orderNumber)));
             })
         );
     }
