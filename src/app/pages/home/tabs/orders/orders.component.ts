@@ -33,13 +33,13 @@ export class OrdersComponent implements OnInit {
     ];
     public form: OrderForm = this.fb.group({
         date: [formatDateToYYYYMMDD(), Validators.required],
-        contacts: '',
+        contact: '',
         clientName: '',
         clientId: '',
         variants: this.fb.array([]) as unknown as FormArray<
             FormGroup<{
                 id: FormControl<Guid>;
-                _id: FormControl<string>;
+                variantId: FormControl<string>;
                 quantity: FormControl<number>;
                 price: FormControl<number>;
             }>
@@ -76,7 +76,7 @@ export class OrdersComponent implements OnInit {
         this.form.controls.variants.clear();
         this.form.setValue({
             date: formatDateToYYYYMMDD(),
-            contacts: '',
+            contact: '',
             clientName: '',
             clientId: '',
             variants: [],

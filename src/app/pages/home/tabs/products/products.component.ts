@@ -40,7 +40,6 @@ export class ProductsComponent implements OnInit {
     public readonly productForm: ProductForm = this.fb.group({
         _id: '',
         name: ['', Validators.required],
-        description: ['', Validators.required],
         price: [0, [Validators.required, Validators.min(0)]],
     });
 
@@ -93,7 +92,6 @@ export class ProductsComponent implements OnInit {
             _id: product?._id ?? '',
             name: product?.name ?? '',
             price: product?.price ?? 0,
-            description: product?.description ?? '',
         });
         this.productPopupRef()?.openPopup();
     }

@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class VariantService {
     private readonly http = inject(HttpClient);
-    private readonly controller = 'variants';
+    private readonly controller = 'variant';
 
     public getAll(): Observable<Variant[]> {
         return this.http.get<Variant[]>(this.controller);
     }
 
-    public setVariants(body: {
+    public updateVariants(body: {
         productId: string;
         variants: NewVariant[];
         oldVariantIds: string[];

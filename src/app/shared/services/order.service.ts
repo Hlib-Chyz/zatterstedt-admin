@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class OrderService {
     private readonly http = inject(HttpClient);
-    private readonly controller = 'orders';
+    private readonly controller = 'order';
 
     public getAll(): Observable<Order[]> {
         return this.http.get<Order[]>(this.controller);

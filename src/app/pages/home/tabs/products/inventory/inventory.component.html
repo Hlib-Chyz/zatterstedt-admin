@@ -1,5 +1,5 @@
 <button class="link" (click)="openInventoryPopup(manufacturingCost())">Inventory</button>
-<app-popup [canSave]="canSaveInventory" (save)="setInventory()" #inventoryPopup>
+<app-popup [canSave]="canSaveInventory" (save)="updateInventory()" #inventoryPopup>
     <app-inventory-form
         [canSave]="canSaveInventory"
         [availableInventory]="inventoryService.inventory() ?? []"

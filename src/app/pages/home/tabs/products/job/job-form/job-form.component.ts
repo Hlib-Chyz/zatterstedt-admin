@@ -5,10 +5,10 @@ import { JobForm } from '@shared/types/job.types';
 import { Guid } from 'guid-typescript';
 
 @Component({
-    selector: 'app-job-cost-form',
+    selector: 'app-job-form',
     imports: [ReactiveFormsModule, TextControlComponent],
-    templateUrl: './job-cost-form.component.html',
-    styleUrl: './job-cost-form.component.scss',
+    templateUrl: './job-form.component.html',
+    styleUrl: './job-form.component.scss',
 })
 export class JobFormComponent {
     private readonly fb = inject(NonNullableFormBuilder);

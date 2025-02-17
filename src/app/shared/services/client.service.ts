@@ -7,21 +7,21 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ClientService {
     private readonly http = inject(HttpClient);
-    private readonly controller = 'clients';
+    private readonly controller = 'client';
 
     public getAll(): Observable<Client[]> {
         return this.http.get<Client[]>(this.controller);
     }
 
-    public setContactsInfo({
+    public updateContact({
         _id,
-        contacts,
+        contact,
     }: {
         _id: string;
-        contacts: string;
+        contact: string;
     }): Observable<DefaultResponse> {
-        return this.http.put<DefaultResponse>(`${this.controller}/contacts/${_id}`, {
-            contacts,
+        return this.http.put<DefaultResponse>(`${this.controller}/contact/${_id}`, {
+            contact,
         });
     }
 }

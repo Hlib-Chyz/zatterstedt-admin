@@ -11,9 +11,9 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ManufacturingCostService {
     private readonly http = inject(HttpClient);
-    private readonly controller = 'manufacturing-costs';
+    private readonly controller = 'manufacturing-cost';
 
-    public setInventory({
+    public updateInventory({
         _id,
         inventory,
         oldInventory,
@@ -35,7 +35,7 @@ export class ManufacturingCostService {
         _id: string;
         job: JobManufacturingCostProduct[];
     }): Observable<DefaultResponse> {
-        return this.http.put<DefaultResponse>(`${this.controller}/job-cost/${_id}`, { job });
+        return this.http.put<DefaultResponse>(`${this.controller}/job/${_id}`, { job });
     }
 
     public canSaveInventory(variantIds: string[]): Observable<CanSaveInventoryResponse> {

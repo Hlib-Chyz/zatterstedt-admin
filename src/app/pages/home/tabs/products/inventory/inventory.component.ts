@@ -93,11 +93,11 @@ export class InventoryComponent {
         this.inventoryPopupRef()?.openPopup();
     }
 
-    public setInventory(): void {
+    public updateInventory(): void {
         if (this.inventoryForm.valid) {
             const { _id, inventory } = this.inventoryForm.getRawValue();
             this.manufacturingCostService
-                .setInventory({
+                .updateInventory({
                     _id,
                     inventory: inventory.map((inv) => {
                         // eslint-disable-next-line @typescript-eslint/no-unused-vars

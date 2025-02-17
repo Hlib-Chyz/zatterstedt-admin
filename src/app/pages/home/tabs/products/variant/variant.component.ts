@@ -81,11 +81,11 @@ export class VariantComponent {
         this.variantPopupRef()?.openPopup();
     }
 
-    public setVariants(): void {
+    public updateVariants(): void {
         if (this.variantForm.valid) {
             const { productId, variants } = this.variantForm.getRawValue();
             this.variantService
-                .setVariants({
+                .updateVariants({
                     variants: variants.map((variant) => {
                         // eslint-disable-next-line @typescript-eslint/no-unused-vars
                         const { id, ...rest } = variant;

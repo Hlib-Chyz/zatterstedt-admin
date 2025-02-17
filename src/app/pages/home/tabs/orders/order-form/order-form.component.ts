@@ -25,7 +25,7 @@ export class OrderFormComponent {
         this.form().controls.variants.push(
             this.fb.group({
                 id: Guid.create(),
-                _id: ['', Validators.required],
+                variantId: ['', Validators.required],
                 quantity: [0, [Validators.required, Validators.min(0)]],
                 price: [0, [Validators.required, Validators.min(0)]],
             })

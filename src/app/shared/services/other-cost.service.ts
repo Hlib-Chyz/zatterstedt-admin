@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class OtherCostService {
     private readonly http = inject(HttpClient);
-    private readonly controller = 'other-costs';
+    private readonly controller = 'other-cost';
 
     public getAll(): Observable<OtherCost[]> {
         return this.http.get<OtherCost[]>(this.controller);

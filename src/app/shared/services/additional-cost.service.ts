@@ -7,7 +7,7 @@ import { DefaultResponse } from '@shared/types/response.types';
 @Injectable({ providedIn: 'root' })
 export class AdditionalCostService {
     private readonly http = inject(HttpClient);
-    private readonly controller = 'additional-costs';
+    private readonly controller = 'additional-cost';
 
     public update(additionalCost: AdditionalCost): Observable<DefaultResponse> {
         return this.http.put<DefaultResponse>(this.controller, additionalCost);

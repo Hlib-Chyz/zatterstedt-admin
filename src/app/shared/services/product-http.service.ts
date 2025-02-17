@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ProductHttpService {
     private readonly http = inject(HttpClient);
-    private readonly controller = 'products';
+    private readonly controller = 'product';
 
     public getAll(): Observable<Product[]> {
-        return this.http.get<Product[]>(`${this.controller}/admin`);
+        return this.http.get<Product[]>(this.controller);
     }
 
     public add(product: NewProduct): Observable<DefaultResponse> {

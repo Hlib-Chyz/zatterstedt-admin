@@ -8,7 +8,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { JobFormComponent } from '@app/pages/home/tabs/products/job/job-cost-form/job-cost-form.component';
+import { JobFormComponent } from '@app/pages/home/tabs/products/job/job-form/job-form.component';
 import PopupComponent from '@shared/components/popup/popup.component';
 import { ManufacturingCostService } from '@shared/services/manufacturing-cost.service';
 import { ProductService } from '@shared/services/product.service';

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class DevelopmentCostService {
     private readonly http = inject(HttpClient);
-    private readonly controller = 'development-costs';
+    private readonly controller = 'development-cost';
 
     public add(developmentCost: NewDevelopmentCost): Observable<DefaultResponse> {
         return this.http.post<DefaultResponse>(this.controller, developmentCost);
