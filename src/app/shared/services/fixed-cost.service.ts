@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { FixedCost, NewFixedCost } from '@shared/types/fixed-cost.types';
-import { DefaultResponse } from '@shared/types/response.types';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,15 +12,15 @@ export class FixedCostService {
         return this.http.get<FixedCost[]>(this.controller);
     }
 
-    public add(body: NewFixedCost): Observable<DefaultResponse> {
-        return this.http.post<DefaultResponse>(this.controller, body);
+    public add(body: NewFixedCost): Observable<unknown> {
+        return this.http.post<unknown>(this.controller, body);
     }
 
-    public update(body: FixedCost): Observable<DefaultResponse> {
-        return this.http.put<DefaultResponse>(this.controller, body);
+    public update(body: FixedCost): Observable<unknown> {
+        return this.http.put<unknown>(this.controller, body);
     }
 
-    public delete(id: string): Observable<DefaultResponse> {
-        return this.http.delete<DefaultResponse>(`${this.controller}/${id}`);
+    public delete(id: string): Observable<unknown> {
+        return this.http.delete<unknown>(`${this.controller}/${id}`);
     }
 }

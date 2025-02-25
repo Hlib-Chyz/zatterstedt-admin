@@ -5,7 +5,6 @@ import {
     InventoryManufacturingCostProduct,
 } from '@shared/types/inventory.types';
 import { JobManufacturingCostProduct } from '@shared/types/job.types';
-import { DefaultResponse } from '@shared/types/response.types';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -21,8 +20,8 @@ export class ManufacturingCostService {
         _id: string;
         inventory: InventoryManufacturingCostProduct[];
         oldInventory: InventoryManufacturingCostProduct[];
-    }): Observable<DefaultResponse> {
-        return this.http.put<DefaultResponse>(`${this.controller}/inventory/${_id}`, {
+    }): Observable<unknown> {
+        return this.http.put<unknown>(`${this.controller}/inventory/${_id}`, {
             inventory,
             oldInventory,
         });
@@ -34,8 +33,8 @@ export class ManufacturingCostService {
     }: {
         _id: string;
         job: JobManufacturingCostProduct[];
-    }): Observable<DefaultResponse> {
-        return this.http.put<DefaultResponse>(`${this.controller}/job/${_id}`, { job });
+    }): Observable<unknown> {
+        return this.http.put<unknown>(`${this.controller}/job/${_id}`, { job });
     }
 
     public canSaveInventory(variantIds: string[]): Observable<CanSaveInventoryResponse> {

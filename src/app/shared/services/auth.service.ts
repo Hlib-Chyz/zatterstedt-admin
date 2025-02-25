@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Path } from '@shared/types/path.types';
-import { DefaultResponse } from '@shared/types/response.types';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -37,8 +36,8 @@ export class AuthService {
             );
     }
 
-    public verifyCode(email: string, code: string): Observable<DefaultResponse> {
-        return this.http.post<DefaultResponse>(`${this.controller}/verify-code`, {
+    public verifyCode(email: string, code: string): Observable<unknown> {
+        return this.http.post<unknown>(`${this.controller}/verify-code`, {
             email,
             code,
         });
