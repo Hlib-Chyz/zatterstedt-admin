@@ -13,7 +13,6 @@
                 <th>Stock</th>
                 <th>Total</th>
                 <th>Development Costs</th>
-                <th>Additional Costs</th>
                 <th>Edit</th>
             </tr>
         </thead>
@@ -38,9 +37,6 @@
                     <td>{{ getTotal(product) }}</td>
                     <td>
                         <app-development-cost [product]="product" />
-                    </td>
-                    <td>
-                        <app-additional-cost [product]="product" />
                     </td>
                     <td>
                         <button

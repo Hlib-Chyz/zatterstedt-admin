@@ -1,5 +1,4 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { AdditionalCost } from '@shared/types/additional-cost.types';
 import { DevelopmentCostProduct } from '@shared/types/development-cost.types';
 import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
 import { VariantProduct } from '@shared/types/variant.types';
@@ -10,7 +9,6 @@ export type Product = {
     price: number;
     variants: VariantProduct[];
     developmentCosts: DevelopmentCostProduct[];
-    additionalCost: AdditionalCost;
     manufacturingCost: ManufacturingCostProduct;
 };
 

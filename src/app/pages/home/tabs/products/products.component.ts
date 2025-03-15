@@ -2,7 +2,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { AdditionalCostComponent } from '@app/pages/home/tabs/products/additional-cost/additional-cost.component';
 import { DevelopmentCostComponent } from '@app/pages/home/tabs/products/development-cost/development-cost.component';
 import { InventoryComponent } from '@app/pages/home/tabs/products/inventory/inventory.component';
 import { JobComponent } from '@app/pages/home/tabs/products/job/job.component';
@@ -23,7 +22,6 @@ import { switchMap } from 'rxjs';
     imports: [
         CurrencyPipe,
         PopupComponent,
-        AdditionalCostComponent,
         DevelopmentCostComponent,
         InventoryComponent,
         PriceComponent,
@@ -68,8 +66,7 @@ export class ProductsComponent implements OnInit {
             }, 0) *
                 this.getTotal(product)) /
             this.getTotalRealizedParty(product);
-        const additionalCost = product.additionalCost.cost / this.getTotalRealizedParty(product);
-        return developmentCostsSum + inventoryCost + job + additionalCost;
+        return developmentCostsSum + inventoryCost + job;
     }
 
     public getStock(product: Product): number {
