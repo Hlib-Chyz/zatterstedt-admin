@@ -34,6 +34,7 @@ export class JobComponent {
                 id: FormControl<Guid>;
                 name: FormControl<string>;
                 cost: FormControl<number>;
+                date: FormControl<string>;
             }>
         >,
         _id: ['', Validators.required],
@@ -48,6 +49,7 @@ export class JobComponent {
                         id: Guid.create(),
                         name: [job.name, Validators.required],
                         cost: [job.cost, [Validators.required, Validators.min(0)]],
+                        date: [job.date, Validators.required],
                     })
                 );
             });
@@ -57,6 +59,7 @@ export class JobComponent {
                     id: Guid.create(),
                     name: ['', Validators.required],
                     cost: [0, [Validators.required, Validators.min(0)]],
+                    date: [new Date().toISOString(), Validators.required],
                 })
             );
         }

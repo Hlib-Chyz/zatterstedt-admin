@@ -20,6 +20,7 @@ export class JobFormComponent {
                 id: Guid.create(),
                 name: ['', Validators.required],
                 cost: [0, [Validators.required, Validators.min(0)]],
+                date: [new Date().toISOString(), Validators.required],
             })
         );
     }
