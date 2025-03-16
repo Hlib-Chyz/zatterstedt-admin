@@ -52,7 +52,6 @@ export class InventoryComponent implements OnInit {
         name: ['', Validators.required],
         totalCost: [0, [Validators.required, Validators.min(0)]],
         amount: [0, [Validators.required, Validators.min(0)]],
-        used: [0, [Validators.required, Validators.min(0)]],
         date: [formatDateToYYYYMMDD(), Validators.required],
     });
     public usedForm: UsedForm = this.fb.group({
@@ -86,7 +85,6 @@ export class InventoryComponent implements OnInit {
             name: '',
             totalCost: 0,
             amount: 0,
-            used: 0,
             date: formatDateToYYYYMMDD(),
         });
         this.popupRef()?.openPopup();
@@ -127,9 +125,14 @@ export class InventoryComponent implements OnInit {
         return this.inventoryHttpService.getAll().pipe(
             tap((inventory) => {
                 this.data.set(
-                    inventory.sort(
-                        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-                    )
+                    inventory
+                        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                        .map((inv) => {
+                            const date = new Date(inv.date);
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                            const formattedDate = date.toISOString().split('T')[0]!;
+                            return { ...inv, date: formattedDate };
+                        })
                 );
             })
         );
