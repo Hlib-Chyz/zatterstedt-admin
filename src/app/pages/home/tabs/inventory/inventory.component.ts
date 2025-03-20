@@ -9,6 +9,7 @@ import { Inventory, InventoryForm, NewInventory, UsedForm } from '@shared/types/
 import { ColumnsFromData } from '@shared/types/table.types';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
+import { formatDates } from '@shared/utilities/format-dates';
 import { Observable, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -125,14 +126,11 @@ export class InventoryComponent implements OnInit {
         return this.inventoryHttpService.getAll().pipe(
             tap((inventory) => {
                 this.data.set(
-                    inventory
-                        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                        .map((inv) => {
-                            const date = new Date(inv.date);
-                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            const formattedDate = date.toISOString().split('T')[0]!;
-                            return { ...inv, date: formattedDate };
-                        })
+                    formatDates<Inventory>(
+                        inventory.sort(
+                            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+                        )
+                    )
                 );
             })
         );
