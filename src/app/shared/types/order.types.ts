@@ -26,7 +26,7 @@ export type OrderForm = FormGroup<{
     variants: FormArray<
         FormGroup<{
             id: FormControl<Guid>;
-            variantId: FormControl<string>;
+            _id: FormControl<string>;
             quantity: FormControl<number>;
             price: FormControl<number>;
         }>

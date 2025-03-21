@@ -15,7 +15,7 @@ export type Variant = {
 };
 
 export type VariantOrder = {
-    variantId: string;
+    _id: string;
     quantity: number;
     price: number;
 };

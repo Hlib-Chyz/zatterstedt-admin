@@ -13,6 +13,7 @@ import { OrderService } from '@shared/services/order.service';
 import { Order, OrderForm } from '@shared/types/order.types';
 import { ColumnsFromData } from '@shared/types/table.types';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
+import { formatDates } from '@shared/utilities/format-dates';
 import { Guid } from 'guid-typescript';
 import { Observable, switchMap, tap } from 'rxjs';
 
@@ -39,7 +40,7 @@ export class OrdersComponent implements OnInit {
         variants: this.fb.array([]) as unknown as FormArray<
             FormGroup<{
                 id: FormControl<Guid>;
-                variantId: FormControl<string>;
+                _id: FormControl<string>;
                 quantity: FormControl<number>;
                 price: FormControl<number>;
             }>
@@ -87,7 +88,11 @@ export class OrdersComponent implements OnInit {
     private getData(): Observable<Order[]> {
         return this.orderService.getAll().pipe(
             tap((orders) => {
-                this.data.set(orders.sort((a, b) => b.orderNumber.localeCompare(a.orderNumber)));
+                this.data.set(
+                    formatDates<Order>(
+                        orders.sort((a, b) => b.orderNumber.localeCompare(a.orderNumber))
+                    )
+                );
             })
         );
     }

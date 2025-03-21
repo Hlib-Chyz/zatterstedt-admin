@@ -18,14 +18,14 @@
                 <li [formGroupName]="$index">
                     <div class="form-group">
                         <label>Variant:</label>
-                        <select formControlName="variantId">
+                        <select formControlName="_id">
                             @for (variant of variants(); track variant._id) {
                                 <option [value]="variant._id">
                                     {{ variant.name }}
                                 </option>
                             }
                         </select>
-                        @let variantControl = variant.controls.variantId;
+                        @let variantControl = variant.controls._id;
                         @if (variantControl.invalid && variantControl.touched) {
                             <div class="error">Variant is required</div>
                         }
