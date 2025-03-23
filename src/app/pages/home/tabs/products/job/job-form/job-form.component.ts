@@ -2,6 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextControlComponent } from '@shared/components/text-control/text-control.component';
 import { JobForm } from '@shared/types/job.types';
+import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
 import { Guid } from 'guid-typescript';
 
 @Component({
@@ -20,7 +21,7 @@ export class JobFormComponent {
                 id: Guid.create(),
                 name: ['', Validators.required],
                 cost: [0, [Validators.required, Validators.min(0)]],
-                date: [new Date().toISOString(), Validators.required],
+                date: [formatDateToYYYYMMDD(), Validators.required],
             })
         );
     }

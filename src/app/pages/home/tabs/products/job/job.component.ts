@@ -14,6 +14,7 @@ import { ManufacturingCostService } from '@shared/services/manufacturing-cost.se
 import { ProductService } from '@shared/services/product.service';
 import { JobForm } from '@shared/types/job.types';
 import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
+import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
 import { Guid } from 'guid-typescript';
 import { switchMap } from 'rxjs';
 
@@ -59,7 +60,7 @@ export class JobComponent {
                     id: Guid.create(),
                     name: ['', Validators.required],
                     cost: [0, [Validators.required, Validators.min(0)]],
-                    date: [new Date().toISOString(), Validators.required],
+                    date: [formatDateToYYYYMMDD(), Validators.required],
                 })
             );
         }
