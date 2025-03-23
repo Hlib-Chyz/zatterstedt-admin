@@ -130,7 +130,10 @@ export class InventoryComponent implements OnInit {
                         inventory.sort(
                             (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
                         )
-                    )
+                    ).map((inv) => ({
+                        ...inv,
+                        used: inv.used > inv.amount ? inv.amount : inv.used,
+                    }))
                 );
             })
         );
