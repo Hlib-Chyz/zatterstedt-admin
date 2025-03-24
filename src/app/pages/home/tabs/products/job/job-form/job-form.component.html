@@ -5,6 +5,7 @@
                 <li [formGroupName]="$index">
                     <app-text-control label="Name" controlName="name" />
                     <app-text-control label="Cost" controlName="cost" type="number" />
+                    <app-text-control label="Date" controlName="date" type="date" />
                     <button class="link" (click)="removeJob($index)">Remove</button>
                 </li>
             }

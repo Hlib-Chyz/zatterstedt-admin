@@ -11,7 +11,7 @@ export type Order = {
 };
 
 export type NewOrder = {
-    contacts: string;
+    contact: string;
     date: string;
     clientName: string;
     clientId: string;
@@ -19,7 +19,7 @@ export type NewOrder = {
 };
 
 export type OrderForm = FormGroup<{
-    contacts: FormControl<string>;
+    contact: FormControl<string>;
     date: FormControl<string>;
     clientName: FormControl<string>;
     clientId: FormControl<string>;

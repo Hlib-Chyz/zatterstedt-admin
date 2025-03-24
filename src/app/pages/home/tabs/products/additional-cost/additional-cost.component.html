@@ -1,6 +1,0 @@
-<button class="link" (click)="openAdditionalCostPopup(product().additionalCost)">
-    {{ product().additionalCost.cost | currency }}
-</button>
-<app-popup (save)="setAdditionalCost()" #additionalCostPopup>
-    <app-additional-cost-form [form]="additionalCostForm" />
-</app-popup>

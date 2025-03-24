@@ -13,7 +13,7 @@
     }
 </ul>
 <button class="link" (click)="openVariantPopup()">Set variants</button>
-<app-popup [canSave]="canSaveVariants" (save)="setVariants()" #variantPopup>
+<app-popup [canSave]="canSaveVariants" (save)="updateVariants()" #variantPopup>
     <app-variant-form [canSave]="canSaveVariants" [form]="variantForm" />
 </app-popup>
 <app-popup (save)="setRealizedParty()" #realizedPartyPopup>

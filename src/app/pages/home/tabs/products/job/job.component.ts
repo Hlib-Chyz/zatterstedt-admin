@@ -8,12 +8,13 @@ import {
     Validators,
 } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { JobFormComponent } from '@app/pages/home/tabs/products/job/job-cost-form/job-cost-form.component';
+import { JobFormComponent } from '@app/pages/home/tabs/products/job/job-form/job-form.component';
 import PopupComponent from '@shared/components/popup/popup.component';
 import { ManufacturingCostService } from '@shared/services/manufacturing-cost.service';
 import { ProductService } from '@shared/services/product.service';
 import { JobForm } from '@shared/types/job.types';
 import { ManufacturingCostProduct } from '@shared/types/manufacturing-cost.types';
+import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
 import { Guid } from 'guid-typescript';
 import { switchMap } from 'rxjs';
 
@@ -34,6 +35,7 @@ export class JobComponent {
                 id: FormControl<Guid>;
                 name: FormControl<string>;
                 cost: FormControl<number>;
+                date: FormControl<string>;
             }>
         >,
         _id: ['', Validators.required],
@@ -48,6 +50,7 @@ export class JobComponent {
                         id: Guid.create(),
                         name: [job.name, Validators.required],
                         cost: [job.cost, [Validators.required, Validators.min(0)]],
+                        date: [job.date, Validators.required],
                     })
                 );
             });
@@ -57,6 +60,7 @@ export class JobComponent {
                     id: Guid.create(),
                     name: ['', Validators.required],
                     cost: [0, [Validators.required, Validators.min(0)]],
+                    date: [formatDateToYYYYMMDD(), Validators.required],
                 })
             );
         }

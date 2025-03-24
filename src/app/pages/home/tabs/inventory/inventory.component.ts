@@ -9,6 +9,7 @@ import { Inventory, InventoryForm, NewInventory, UsedForm } from '@shared/types/
 import { ColumnsFromData } from '@shared/types/table.types';
 import { extractFormDataWithoutId } from '@shared/utilities/extract-form-data-without-id';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
+import { formatDates } from '@shared/utilities/format-dates';
 import { Observable, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -52,7 +53,6 @@ export class InventoryComponent implements OnInit {
         name: ['', Validators.required],
         totalCost: [0, [Validators.required, Validators.min(0)]],
         amount: [0, [Validators.required, Validators.min(0)]],
-        used: [0, [Validators.required, Validators.min(0)]],
         date: [formatDateToYYYYMMDD(), Validators.required],
     });
     public usedForm: UsedForm = this.fb.group({
@@ -86,7 +86,6 @@ export class InventoryComponent implements OnInit {
             name: '',
             totalCost: 0,
             amount: 0,
-            used: 0,
             date: formatDateToYYYYMMDD(),
         });
         this.popupRef()?.openPopup();
@@ -127,9 +126,14 @@ export class InventoryComponent implements OnInit {
         return this.inventoryHttpService.getAll().pipe(
             tap((inventory) => {
                 this.data.set(
-                    inventory.sort(
-                        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-                    )
+                    formatDates<Inventory>(
+                        inventory.sort(
+                            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+                        )
+                    ).map((inv) => ({
+                        ...inv,
+                        used: inv.used > inv.amount ? inv.amount : inv.used,
+                    }))
                 );
             })
         );

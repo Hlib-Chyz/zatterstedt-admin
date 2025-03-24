@@ -3,6 +3,4 @@ export const enum Tabs {
     Inventory = 'Inventory',
     Orders = 'Orders',
     Clients = 'Clients',
-    FixedCosts = 'Fixed Costs',
-    OtherCosts = 'Other Costs',
 }

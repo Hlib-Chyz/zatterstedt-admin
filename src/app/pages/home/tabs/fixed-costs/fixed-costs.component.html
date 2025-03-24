@@ -1,9 +1,0 @@
-<app-popup (save)="onSubmit()" #popup>
-    <app-fixed-cost-form [form]="form" />
-</app-popup>
-<app-table
-    [columns]="columns"
-    [data]="data()"
-    (update)="update($event)"
-    (add)="add()"
-    (remove)="remove($event)" />

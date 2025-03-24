@@ -19,12 +19,12 @@ export class ClientsComponent implements OnInit {
     public data = signal<Client[]>([]);
     public columns: ColumnsFromData<Client> = [
         { field: 'name', name: 'Name' },
-        { field: 'contacts', name: 'Contacts' },
+        { field: 'contact', name: 'Contact' },
         { field: 'purchases', name: 'Purchases' },
     ];
     public form: ClientForm = this.fb.group({
         _id: ['', Validators.required],
-        contacts: ['', Validators.required],
+        contact: ['', Validators.required],
     });
     public popupRef = viewChild<PopupComponent>('popup');
 
@@ -38,15 +38,15 @@ export class ClientsComponent implements OnInit {
             return;
         }
         this.clientService
-            .setContactsInfo(this.form.getRawValue())
+            .updateContact(this.form.getRawValue())
             .pipe(switchMap(() => this.getData()))
             .subscribe(() => {
                 this.popupRef()?.closePopup();
             });
     }
 
-    public setContactsInfo(client: Client): void {
-        this.form.setValue({ _id: client._id, contacts: client.contacts });
+    public updateContact(client: Client): void {
+        this.form.setValue({ _id: client._id, contact: client.contact });
         this.popupRef()?.openPopup();
     }
 

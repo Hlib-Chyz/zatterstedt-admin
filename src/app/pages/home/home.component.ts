@@ -2,10 +2,8 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsComponent } from '@app/pages/home/tabs/clients/clients.component';
-import { FixedCostsComponent } from '@app/pages/home/tabs/fixed-costs/fixed-costs.component';
 import { InventoryComponent } from '@app/pages/home/tabs/inventory/inventory.component';
 import { OrdersComponent } from '@app/pages/home/tabs/orders/orders.component';
-import { OtherCostsComponent } from '@app/pages/home/tabs/other-costs/other-costs.component';
 import { ProductsComponent } from '@app/pages/home/tabs/products/products.component';
 import { Tabs } from '@shared/types/tab.types';
 import { filter } from 'rxjs';
@@ -13,14 +11,7 @@ import { filter } from 'rxjs';
 @Component({
     templateUrl: 'home.component.html',
     styleUrl: 'home.component.scss',
-    imports: [
-        ProductsComponent,
-        ClientsComponent,
-        FixedCostsComponent,
-        InventoryComponent,
-        OrdersComponent,
-        OtherCostsComponent,
-    ],
+    imports: [ProductsComponent, ClientsComponent, InventoryComponent, OrdersComponent],
 })
 export default class HomeComponent implements OnInit {
     private readonly router = inject(Router);
@@ -29,15 +20,11 @@ export default class HomeComponent implements OnInit {
     public activeTab: string = Tabs.Products;
     public readonly productsTabName = Tabs.Products;
     public readonly clientsTabName = Tabs.Clients;
-    public readonly fixedCostsTabName = Tabs.FixedCosts;
-    public readonly otherCostsTabName = Tabs.OtherCosts;
     public readonly inventoryTabName = Tabs.Inventory;
     public readonly ordersTabName = Tabs.Orders;
     public readonly tabs = [
         this.productsTabName,
         this.clientsTabName,
-        this.fixedCostsTabName,
-        this.otherCostsTabName,
         this.inventoryTabName,
         this.ordersTabName,
     ];

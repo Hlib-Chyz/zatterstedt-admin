@@ -13,6 +13,7 @@ import { OrderService } from '@shared/services/order.service';
 import { Order, OrderForm } from '@shared/types/order.types';
 import { ColumnsFromData } from '@shared/types/table.types';
 import { formatDateToYYYYMMDD } from '@shared/utilities/format-date-to-yyyymmdd';
+import { formatDates } from '@shared/utilities/format-dates';
 import { Guid } from 'guid-typescript';
 import { Observable, switchMap, tap } from 'rxjs';
 
@@ -33,7 +34,7 @@ export class OrdersComponent implements OnInit {
     ];
     public form: OrderForm = this.fb.group({
         date: [formatDateToYYYYMMDD(), Validators.required],
-        contacts: '',
+        contact: '',
         clientName: '',
         clientId: '',
         variants: this.fb.array([]) as unknown as FormArray<
@@ -76,7 +77,7 @@ export class OrdersComponent implements OnInit {
         this.form.controls.variants.clear();
         this.form.setValue({
             date: formatDateToYYYYMMDD(),
-            contacts: '',
+            contact: '',
             clientName: '',
             clientId: '',
             variants: [],
@@ -87,7 +88,11 @@ export class OrdersComponent implements OnInit {
     private getData(): Observable<Order[]> {
         return this.orderService.getAll().pipe(
             tap((orders) => {
-                this.data.set(orders.sort((a, b) => b.orderNumber.localeCompare(a.orderNumber)));
+                this.data.set(
+                    formatDates<Order>(
+                        orders.sort((a, b) => b.orderNumber.localeCompare(a.orderNumber))
+                    )
+                );
             })
         );
     }
